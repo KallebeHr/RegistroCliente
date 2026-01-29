@@ -10,7 +10,8 @@
           </div>
           <h1 class="hero-title">Painel de Leads</h1>
           <p class="hero-subtitle">
-            Cards de leads com modal completo. Agora com ações de admin: definir tipo/status e excluir.
+            Lista de cadastros do formulário. Com modal completo + ações de admin (tipo/status) e exclusão.
+            <span class="muted-hero">Agora com data real (createdAt), fallback de formatação e highlight de conformidade.</span>
           </p>
         </div>
 
@@ -32,7 +33,7 @@
       <div class="controls">
         <v-text-field
           v-model="q"
-          label="Buscar por nome, e-mail, WhatsApp, marca…"
+          label="Buscar por nome, e-mail, WhatsApp, marca, cidade…"
           variant="outlined"
           density="comfortable"
           prepend-inner-icon="mdi-magnify"
@@ -65,6 +66,31 @@
         />
       </div>
 
+      <!-- Quick status chips -->
+      <div class="status-chips">
+        <button
+          v-for="s in statusOptions"
+          :key="s"
+          type="button"
+          class="sChip"
+          :class="{ on: statusFilter === s }"
+          @click="statusFilter = (statusFilter === s ? null : s)"
+        >
+          <span class="dot" :class="statusDot(s)"></span>
+          {{ s }}
+        </button>
+
+        <button
+          type="button"
+          class="sChip ghost"
+          :class="{ on: !statusFilter }"
+          @click="statusFilter = null"
+        >
+          <i class="mdi mdi-filter-off-outline"></i>
+          limpar
+        </button>
+      </div>
+
       <div class="meta">
         <v-chip class="meta-chip" variant="tonal" color="primary">
           <i class="mdi mdi-database-outline mr-2"></i>
@@ -88,9 +114,7 @@
         <div class="empty-ico"><i class="mdi mdi-text-box-search-outline"></i></div>
         <h3>Nenhum lead encontrado</h3>
         <p>Tente limpar filtros ou ajustar a busca.</p>
-        <v-btn variant="tonal" prepend-icon="mdi-refresh" @click="fetchLeads">
-          Recarregar
-        </v-btn>
+        <v-btn variant="tonal" prepend-icon="mdi-refresh" @click="fetchLeads">Recarregar</v-btn>
       </div>
 
       <div v-else class="grid">
@@ -102,9 +126,12 @@
           tabindex="0"
           @click="openLead(lead)"
           @keydown.enter.prevent="openLead(lead)"
+          @mousemove="onCardMove"
         >
           <div class="card-top">
-            <div class="avatar"><span>{{ initials(lead.nome || lead.marca || "Lead") }}</span></div>
+            <div class="avatar">
+              <span>{{ initials(lead.nome || lead.marca || "Lead") }}</span>
+            </div>
 
             <div class="card-title">
               <div class="name">{{ lead.nome || "Sem nome" }}</div>
@@ -128,12 +155,27 @@
             </div>
             <div class="row">
               <i class="mdi mdi-map-marker-outline"></i>
-              <span class="truncate">{{ lead.cidade || lead.localPrincipal || "—" }}</span>
+              <span class="truncate">{{ lead.localPrincipal || lead.cidade || "—" }}</span>
+            </div>
+
+            <div class="chips">
+              <span v-if="lead.oab" class="chip chip-ok">
+                <i class="mdi mdi-shield-check-outline"></i>
+                OAB ok
+              </span>
+              <span v-if="lead.lgpd" class="chip chip-ok">
+                <i class="mdi mdi-shield-lock-outline"></i>
+                LGPD ok
+              </span>
+              <span v-if="lead.multiUnidade === 'Sim'" class="chip">
+                <i class="mdi mdi-map-marker-multiple-outline"></i>
+                Multi unidade
+              </span>
             </div>
 
             <div class="chips">
               <span v-for="a in (lead.areas || []).slice(0, 3)" :key="a" class="chip">
-                <i class="mdi mdi-scale-balance"></i>
+                <i class="mdi" :class="areaIcon(a)"></i>
                 {{ a }}
               </span>
               <span v-if="(lead.areas || []).length > 3" class="chip chip-more">
@@ -145,7 +187,7 @@
           <div class="card-footer">
             <div class="date">
               <i class="mdi mdi-calendar-clock-outline"></i>
-              <span>{{ lead.createdAtBR || "—" }}</span>
+              <span>{{ displayCreatedAt(lead) }}</span>
             </div>
 
             <div class="cta">
@@ -231,6 +273,17 @@
               >
                 Salvar
               </v-btn>
+
+              <v-btn
+                class="admin-btn"
+                color="error"
+                variant="tonal"
+                :loading="adminDeleting"
+                prepend-icon="mdi-delete-outline"
+                @click="confirmDelete.on = true"
+              >
+                Excluir
+              </v-btn>
             </div>
           </div>
 
@@ -279,9 +332,12 @@
                 <Info label="Marca" :value="modal.lead?.marca" />
                 <Info label="WhatsApp" :value="modal.lead?.whats" />
                 <Info label="E-mail" :value="modal.lead?.email" />
-                <Info label="Cidade" :value="modal.lead?.cidade" />
+                <Info label="Cidade (extra)" :value="modal.lead?.cidade" />
                 <Info label="Atendimento" :value="modal.lead?.atendimento" />
-                <Info label="Criado em" :value="modal.lead?.createdAtBR" />
+                <Info label="Criado em" :value="displayCreatedAt(modal.lead)" />
+                <Info label="Atualizado em" :value="modal.lead?.updatedAtBR" />
+                <Info label="Origem" :value="modal.lead?.origin" />
+                <Info label="Status" :value="modal.lead?.status || 'novo'" />
               </div>
             </div>
 
@@ -354,6 +410,17 @@
                 <Info label="OAB" :value="modal.lead?.oab ? 'Sim' : 'Não'" />
                 <Info label="LGPD" :value="modal.lead?.lgpd ? 'Sim' : 'Não'" />
               </div>
+
+              <div v-if="modal.lead && (!modal.lead.oab || !modal.lead.lgpd)" class="warnBox">
+                <i class="mdi mdi-alert-outline"></i>
+                <div>
+                  <div class="warnTitle">Atenção</div>
+                  <div class="warnSub">
+                    Esse lead não marcou conformidade completa (OAB/LGPD). Na prática, você pode precisar reforçar
+                    texto institucional + aviso de privacidade no site.
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div class="sec">
@@ -369,6 +436,21 @@
                 <Info label="Identidade" :value="modal.lead?.identidade" />
                 <Info label="Conteúdos" :value="joinArr(modal.lead?.conteudo)" wide />
                 <Info label="Observações finais" :value="modal.lead?.obs" wide multiline />
+              </div>
+            </div>
+
+            <div class="sec">
+              <div class="sec-head">
+                <i class="mdi mdi-information-outline"></i>
+                <div>
+                  <div class="sec-title">Técnico (opcional)</div>
+                  <div class="sec-sub">Útil para auditoria / debug</div>
+                </div>
+              </div>
+
+              <div class="sec-grid">
+                <Info label="UserAgent" :value="modal.lead?.userAgent" wide multiline />
+                <Info label="createdAt (raw)" :value="rawTimestamp(modal.lead?.createdAt)" wide />
               </div>
             </div>
           </div>
@@ -409,7 +491,7 @@
             </div>
             <div class="confirm-line">
               <span class="k">Criado em:</span>
-              <span class="v">{{ modal.lead?.createdAtBR || "—" }}</span>
+              <span class="v">{{ displayCreatedAt(modal.lead) }}</span>
             </div>
           </div>
         </v-card-text>
@@ -459,7 +541,7 @@ const Info = defineComponent({
   name: "Info",
   props: {
     label: { type: String, required: true },
-    value: { type: [String, Number, Boolean, null], default: "" },
+    value: { type: [String, Number, Boolean, Object, null], default: "" },
     wide: { type: Boolean, default: false },
     multiline: { type: Boolean, default: false },
   },
@@ -493,6 +575,82 @@ const loading = ref(false);
 const lastUpdated = ref("");
 
 const COLLECTION_NAME = "cadastros_clientes";
+
+/** Helpers de data (suporta Timestamp do Firestore + string) */
+function toDateMaybe(v) {
+  if (!v) return null;
+  // Firestore Timestamp geralmente tem toDate()
+  if (typeof v?.toDate === "function") return v.toDate();
+  // se já for Date
+  if (v instanceof Date) return v;
+  // ISO/string
+  const d = new Date(v);
+  return isNaN(d.getTime()) ? null : d;
+}
+function fmtBRDateTime(d) {
+  if (!d) return "—";
+  try {
+    return d.toLocaleString("pt-BR");
+  } catch {
+    return "—";
+  }
+}
+function displayCreatedAt(lead) {
+  if (!lead) return "—";
+  // prioridade: createdAtBR (humano)
+  if (lead.createdAtBR && String(lead.createdAtBR).trim()) return lead.createdAtBR;
+  // fallback: createdAt (Timestamp)
+  const d = toDateMaybe(lead.createdAt);
+  if (d) return fmtBRDateTime(d);
+  // fallback: createdAtParts (se existir)
+  const p = lead.createdAtParts;
+  if (p && typeof p === "object" && p.dia && p.mes && p.ano) {
+    const dd = String(p.dia).padStart(2, "0");
+    const mm = String(p.mes).padStart(2, "0");
+    const yy = String(p.ano);
+    const hh = String(p.hora ?? 0).padStart(2, "0");
+    const mi = String(p.minuto ?? 0).padStart(2, "0");
+    const ss = String(p.segundo ?? 0).padStart(2, "0");
+    return `${dd}/${mm}/${yy} ${hh}:${mi}:${ss}`;
+  }
+  return "—";
+}
+function sortTimeMs(lead) {
+  // melhor: createdAt (Timestamp)
+  const d = toDateMaybe(lead?.createdAt);
+  if (d) return d.getTime();
+  // tentativa: createdAtBR dd/mm/yyyy hh:mm:ss
+  const s = String(lead?.createdAtBR || "").trim();
+  if (s) {
+    // parse simples BR: dd/mm/yyyy hh:mm:ss
+    const m = s.match(/^(\d{2})\/(\d{2})\/(\d{4})\s+(\d{2}):(\d{2})(?::(\d{2}))?$/);
+    if (m) {
+      const dd = Number(m[1]);
+      const mm = Number(m[2]);
+      const yy = Number(m[3]);
+      const hh = Number(m[4]);
+      const mi = Number(m[5]);
+      const ss = Number(m[6] || 0);
+      const dt = new Date(yy, mm - 1, dd, hh, mi, ss);
+      return dt.getTime();
+    }
+  }
+  // createdAtParts
+  const p = lead?.createdAtParts;
+  if (p && typeof p === "object" && p.dia && p.mes && p.ano) {
+    const dt = new Date(p.ano, (p.mes || 1) - 1, p.dia || 1, p.hora || 0, p.minuto || 0, p.segundo || 0);
+    return dt.getTime();
+  }
+  return 0;
+}
+function rawTimestamp(v) {
+  if (!v) return "—";
+  if (typeof v?.toDate === "function") {
+    const d = v.toDate();
+    return `${d.toISOString()}`;
+  }
+  return String(v);
+}
 
 async function fetchLeads() {
   loading.value = true;
@@ -538,8 +696,11 @@ const filteredLeads = computed(() => {
       l.cidade,
       l.localPrincipal,
       l.createdAtBR,
+      l.updatedAtBR,
       l.tipo,
       l.status,
+      l.publico,
+      Array.isArray(l.areas) ? l.areas.join(" ") : "",
     ]
       .filter(Boolean)
       .join(" ")
@@ -551,15 +712,17 @@ const filteredLeads = computed(() => {
 
 const sortedLeads = computed(() => {
   const arr = [...filteredLeads.value];
+
   switch (sortMode.value) {
     case "Mais antigos":
-      return arr.reverse();
+      return arr.sort((a, b) => sortTimeMs(a) - sortTimeMs(b));
     case "A-Z (Nome)":
       return arr.sort((a, b) => String(a.nome || "").localeCompare(String(b.nome || ""), "pt-BR"));
     case "A-Z (Marca)":
       return arr.sort((a, b) => String(a.marca || "").localeCompare(String(b.marca || ""), "pt-BR"));
     default:
-      return arr;
+      // Mais recentes
+      return arr.sort((a, b) => sortTimeMs(b) - sortTimeMs(a));
   }
 });
 
@@ -620,6 +783,19 @@ function waLink(whats) {
   return `https://wa.me/${phone}`;
 }
 
+/* ===== Icons do formulário (para ficar coerente com o intake) ===== */
+function areaIcon(a) {
+  if (String(a).includes("Agro")) return "mdi-tractor";
+  if (a === "Criminal") return "mdi-gavel";
+  if (a === "Família") return "mdi-account-group";
+  if (a === "Trabalhista") return "mdi-briefcase";
+  if (a === "Tributário") return "mdi-cash";
+  if (a === "Empresarial") return "mdi-domain";
+  if (a === "Imobiliário") return "mdi-home-city";
+  if (a === "Consumidor") return "mdi-cart";
+  return "mdi-scale-balance";
+}
+
 /* ===== Admin actions ===== */
 function replaceLeadInList(updated) {
   const idx = leads.value.findIndex((x) => x.id === updated.id);
@@ -629,7 +805,6 @@ function replaceLeadInList(updated) {
 async function saveAdminEdits() {
   if (!modal.lead?.id) return;
 
-  // nada mudou?
   const currentTipo = modal.lead?.tipo || null;
   const currentStatus = modal.lead?.status || "novo";
   if (admin.tipo === currentTipo && admin.status === currentStatus) {
@@ -649,7 +824,6 @@ async function saveAdminEdits() {
 
     await updateDoc(refDoc, updatePayload);
 
-    // Atualiza UI (modal + lista)
     modal.lead = { ...modal.lead, ...updatePayload };
     replaceLeadInList({ id: modal.lead.id, ...updatePayload });
 
@@ -670,12 +844,10 @@ async function deleteLead() {
     const refDoc = doc(db, COLLECTION_NAME, modal.lead.id);
     await deleteDoc(refDoc);
 
-    // remove da lista
     leads.value = leads.value.filter((x) => x.id !== modal.lead.id);
 
     showSnack("Cadastro excluído ✅", "mdi-delete-outline");
 
-    // fecha dialogs
     confirmDelete.on = false;
     modal.on = false;
     modal.lead = null;
@@ -696,6 +868,17 @@ async function copyLeadJson(lead) {
   } catch {
     showSnack("Falha ao copiar", "mdi-alert-circle");
   }
+}
+
+/* ===== Card glow (resolve --mx / --my) ===== */
+function onCardMove(e) {
+  const el = e.currentTarget;
+  if (!el) return;
+  const r = el.getBoundingClientRect();
+  const mx = ((e.clientX - r.left) / r.width) * 100;
+  const my = ((e.clientY - r.top) / r.height) * 100;
+  el.style.setProperty("--mx", `${mx}%`);
+  el.style.setProperty("--my", `${my}%`);
 }
 </script>
 
@@ -754,7 +937,13 @@ async function copyLeadJson(lead) {
 .hero-subtitle{
   margin: 0;
   opacity: .78;
-  max-width: 720px;
+  max-width: 820px;
+}
+.muted-hero{
+  display: inline-block;
+  margin-left: 6px;
+  opacity: .75;
+  font-size: 12px;
 }
 .btn-glow{
   border-radius: 14px;
@@ -770,6 +959,41 @@ async function copyLeadJson(lead) {
   position: relative;
 }
 .control{ border-radius: 14px; }
+
+.status-chips{
+  display:flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  position: relative;
+}
+.sChip{
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.03);
+  color: rgba(255,255,255,.88);
+  border-radius: 999px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display:flex;
+  align-items:center;
+  gap: 8px;
+  font-size: 12px;
+  transition: transform .18s ease, background .18s ease, border-color .18s ease;
+}
+.sChip:hover{ transform: translateY(-1px); background: rgba(255,255,255,.05); }
+.sChip.on{ background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.18); }
+.sChip.ghost{ opacity: .85; }
+.sChip .dot{
+  width: 10px; height: 10px;
+  border-radius: 999px;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.04);
+}
+.sChip .dot.new{ background: #60a5fa; }
+.sChip .dot.ok{ background: #22c55e; }
+.sChip .dot.info{ background: #38bdf8; }
+.sChip .dot.warn{ background: #fbbf24; }
+.sChip .dot.bad{ background: #ef4444; }
+
 .meta{
   display:flex;
   gap: 10px;
@@ -860,7 +1084,12 @@ async function copyLeadJson(lead) {
   background: rgba(255,255,255,.04);
   display:inline-flex; gap: 6px; align-items:center;
 }
+.chip i{ opacity: .9; }
 .chip-more{ opacity: .75; }
+.chip-ok{
+  border-color: rgba(34,197,94,.28);
+  background: rgba(34,197,94,.10);
+}
 
 .card-footer{ margin-top: 12px; display:flex; align-items:center; justify-content: space-between; opacity: .9; }
 .date{ display:flex; gap: 8px; align-items:center; font-size: 12px; opacity: .75; }
@@ -966,6 +1195,20 @@ async function copyLeadJson(lead) {
 }
 .info-value{ font-size: 13px; opacity: .92; word-break: break-word; }
 .info-value--multi{ white-space: pre-wrap; line-height: 1.45; }
+
+.warnBox{
+  margin-top: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(251,191,36,.25);
+  background: rgba(251,191,36,.08);
+  padding: 12px;
+  display:flex;
+  gap: 10px;
+  align-items:flex-start;
+}
+.warnBox i{ margin-top: 2px; }
+.warnTitle{ font-weight: 900; font-size: 12px; }
+.warnSub{ opacity: .88; font-size: 12px; line-height: 1.45; }
 
 .modal-actions{ padding: 12px 14px; }
 

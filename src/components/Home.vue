@@ -23,23 +23,25 @@
 
         <div class="copy" ref="copy">
           <p class="kicker" ref="kicker">
-            MaxSistemas • Estratégia • Acessibilidade
+            MaxSistemas • Presença Digital Jurídica • Acessibilidade & Performance
           </p>
 
           <h1 class="title" ref="title">
-            Transforme visitantes em clientes com uma
-            <span class="title__accent">landing page</span> que passa confiança.
+            Transforme sua presença online em
+            <span class="title__accent">credibilidade</span>
+            e atraia contatos qualificados.
           </h1>
 
           <p class="subtitle" ref="subtitle">
-            Registro simples, rápido e pronto para captação: formulário inteligente, WhatsApp e acessibilidade.
+            Landing page para advocacia com estrutura clara, acessível e pronta para conversão:
+            formulário estratégico, botões de WhatsApp e apresentação institucional.
           </p>
 
           <div class="cta-row" ref="ctaRow">
             <button class="cta primary" ref="ctaPrimary" type="button" @click="goForm">
-             Preencher Formulario.
+              Solicitar avaliação do site
               <span class="arrow" aria-hidden="true">→</span>
-              <span class="shine" aria-hidden="true"></span>  
+              <span class="shine" aria-hidden="true"></span>
             </button>
 
             <div class="drop">
@@ -63,22 +65,24 @@
                 @keydown.esc="closeDrop"
               >
                 <button class="panel__item" role="menuitem" @click="pickFAQ(0)">
-                  Quanto tempo leva para ficar pronto?
-                  <span class="muted">• geralmente 24–72h</span>
+                  Em quanto tempo fica pronto?
+                  <span class="muted">• geralmente 24–72h, conforme conteúdo e identidade visual</span>
                 </button>
+
                 <button class="panel__item" role="menuitem" @click="pickFAQ(1)">
-                  Funciona com WhatsApp?
-                  <span class="muted">• sim, integração direta</span>
+                  Tem botão direto para WhatsApp?
+                  <span class="muted">• sim, com mensagem pré-configurada e rastreio</span>
                 </button>
+
                 <button class="panel__item" role="menuitem" @click="pickFAQ(2)">
                   Preciso ter domínio?
-                  <span class="muted">• Caso não tenha, o primeiro ano é gratuito</span>
+                  <span class="muted">• se não tiver, você pode usar subdomínio e migrar depois</span>
                 </button>
 
                 <div class="panel__divider"></div>
 
                 <button class="panel__cta" role="menuitem" @click="scrollTo('#contato')">
-                  Ainda tem duvidas? Clique aqui!
+                  Quer um modelo para seu escritório?
                   <span class="spark" aria-hidden="true"></span>
                 </button>
               </div>
@@ -86,10 +90,15 @@
           </div>
 
           <div class="trust" ref="trust">
-            <span class="trust__pill">✅ Visual premium</span>
+            <span class="trust__pill">⚖️ Tom institucional</span>
+            <span class="trust__pill">🔒 Boas práticas & LGPD</span>
             <span class="trust__pill">⚡ Carregamento rápido</span>
             <span class="trust__pill">♿ Acessível</span>
           </div>
+
+          <p class="disclaimer">
+            *Conteúdo informativo. Sem promessas de resultado. Layout conforme diretrizes do escritório.
+          </p>
         </div>
 
         <!-- scroll hint -->
@@ -106,6 +115,7 @@
 import { onBeforeUnmount, onMounted, ref, nextTick } from "vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
+
 // GSAP
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
@@ -141,9 +151,11 @@ let cleanupFloating = null;
 
 const prefersReduced =
   window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+
 function goForm() {
   router.push("/Formulario");
 }
+
 // ===== Helpers =====
 function scrollTo(selector) {
   const el = document.querySelector(selector);
@@ -151,16 +163,15 @@ function scrollTo(selector) {
   el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-// FAQs (pode trocar pelo que você quiser)
+// FAQs
 const faqs = [
-  { q: "Quanto tempo leva para ficar pronto?", a: "Normalmente 24–72h dependendo do conteúdo." },
-  { q: "Funciona com WhatsApp?", a: "Sim. Botões e envio direto configurados." },
-  { q: "Preciso ter domínio?", a: "Não. Você pode usar um subdomínio e depois migrar." }
+  { q: "Em quanto tempo fica pronto?", a: "Geralmente 24–72h, conforme conteúdo, revisão e identidade visual." },
+  { q: "Tem botão direto para WhatsApp?", a: "Sim. Botões com mensagem pronta e envio direto configurado." },
+  { q: "Preciso ter domínio?", a: "Não. Você pode iniciar com subdomínio e migrar quando quiser." }
 ];
 
 function pickFAQ(idx) {
   closeDrop();
-  // microfeedback
   animate(title.value, { transform: ["scale(1)", "scale(1.01)", "scale(1)"] }, { duration: 0.25 });
   console.log("FAQ:", faqs[idx]);
 }
@@ -200,7 +211,7 @@ function animateOpenPanel() {
   if (!panelRef.value) return;
   animate(
     panelRef.value,
-    { opacity: [0, 1], transform: ["translateY(-8px) scale(0.98)", "translateY(0px) scale(1)"] },
+    { opacity: [0, 1], transform: ["translateY(-8px) scale(0.985)", "translateY(0px) scale(1)"] },
     { duration: 0.16 }
   );
 }
@@ -264,7 +275,7 @@ function magnetic(el, strength = 16) {
   };
 }
 
-// ===== Split words (sem plugin pago) =====
+// ===== Split words =====
 function splitWords(el) {
   if (!el) return [];
   const text = el.textContent.trim();
@@ -284,24 +295,24 @@ function setupParticles() {
 
   const dots = wrap.querySelectorAll(".p");
   dots.forEach((d) => {
-    const s = gsap.utils.random(2, 6);
+    const s = gsap.utils.random(2, 5);
     gsap.set(d, {
       xPercent: -50,
       yPercent: -50,
-      left: gsap.utils.random(5, 95) + "%",
-      top: gsap.utils.random(10, 95) + "%",
+      left: gsap.utils.random(6, 94) + "%",
+      top: gsap.utils.random(12, 94) + "%",
       width: s,
       height: s,
-      opacity: gsap.utils.random(0.10, 0.28),
-      filter: `blur(${gsap.utils.random(0, 1.2)}px)`
+      opacity: gsap.utils.random(0.06, 0.18),
+      filter: `blur(${gsap.utils.random(0.3, 1.1)}px)`
     });
 
     if (!prefersReduced) {
       gsap.to(d, {
-        y: `+=${gsap.utils.random(-22, 22)}`,
-        x: `+=${gsap.utils.random(-22, 22)}`,
-        opacity: gsap.utils.random(0.08, 0.30),
-        duration: gsap.utils.random(2.8, 5.2),
+        y: `+=${gsap.utils.random(-18, 18)}`,
+        x: `+=${gsap.utils.random(-18, 18)}`,
+        opacity: gsap.utils.random(0.05, 0.20),
+        duration: gsap.utils.random(3.2, 5.8),
         ease: "sine.inOut",
         yoyo: true,
         repeat: -1
@@ -361,17 +372,8 @@ onMounted(() => {
         { opacity: 1, y: 0, duration: 0.45 },
         "-=0.35"
       )
-      .fromTo(
-        title.value,
-        { opacity: 1 }, // título já existe, o reveal real é nas palavras
-        { opacity: 1, duration: 0.01 }
-      )
-      .fromTo(
-        subtitle.value,
-        { opacity: 1 },
-        { opacity: 1, duration: 0.01 },
-        "-=0.2"
-      )
+      .fromTo(title.value, { opacity: 1 }, { opacity: 1, duration: 0.01 })
+      .fromTo(subtitle.value, { opacity: 1 }, { opacity: 1, duration: 0.01 }, "-=0.2")
       .fromTo(
         ctaRow.value,
         { opacity: 0, y: 10 },
@@ -406,7 +408,7 @@ onMounted(() => {
     if (!prefersReduced) {
       gsap.to(logoWrap.value, {
         y: -6,
-        duration: 2.8,
+        duration: 3.0,
         ease: "sine.inOut",
         yoyo: true,
         repeat: -1
@@ -417,8 +419,8 @@ onMounted(() => {
     if (!prefersReduced) {
       const ring = root.value?.querySelector(".logo-ring");
       const shine = root.value?.querySelector(".logo-shine");
-      if (ring) gsap.to(ring, { rotate: 360, duration: 18, ease: "none", repeat: -1 });
-      if (shine) gsap.to(shine, { opacity: 0.22, duration: 1.8, ease: "sine.inOut", yoyo: true, repeat: -1 });
+      if (ring) gsap.to(ring, { rotate: 360, duration: 22, ease: "none", repeat: -1 });
+      if (shine) gsap.to(shine, { opacity: 0.18, duration: 2.2, ease: "sine.inOut", yoyo: true, repeat: -1 });
     }
 
     // Parallax background com var
@@ -428,7 +430,7 @@ onMounted(() => {
       end: "bottom top",
       scrub: 1,
       onUpdate: (self) => {
-        root.value?.style.setProperty("--bgShift", `${self.progress * 60}px`);
+        root.value?.style.setProperty("--bgShift", `${self.progress * 56}px`);
       }
     });
 
@@ -438,7 +440,7 @@ onMounted(() => {
       gsap.to(bg, {
         scrollTrigger: { trigger: root.value, start: "top top", end: "bottom top", scrub: 1 },
         filter: "blur(6px)",
-        scale: 1.05,
+        scale: 1.04,
         ease: "none"
       });
     }
@@ -446,9 +448,9 @@ onMounted(() => {
     // saída elegante ao scroll
     gsap.to(copy.value, {
       scrollTrigger: { trigger: root.value, start: "top top", end: "bottom top", scrub: 1 },
-      y: 30,
-      opacity: 0.35,
-      scale: 0.98,
+      y: 28,
+      opacity: 0.40,
+      scale: 0.985,
       transformOrigin: "center",
       ease: "none"
     });
@@ -485,7 +487,7 @@ onBeforeUnmount(() => {
   display: grid;
   place-items: center;
   overflow: hidden;
-  background: #07080b;
+  background: radial-gradient(1200px 700px at 50% 12%, #0b0f18, #07080b 55%, #06070a);
   color: rgba(255,255,255,0.92);
   --bgShift: 0px;
 }
@@ -493,7 +495,7 @@ onBeforeUnmount(() => {
 .hero__container {
   width: 100%;
   max-width: 1180px;
-  padding: 70px 18px 60px;
+  padding: 72px 18px 64px;
 }
 
 .center {
@@ -514,44 +516,45 @@ onBeforeUnmount(() => {
 
 .bg__grid {
   position: absolute;
-  inset: -40%;
+  inset: -35%;
   background:
-    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size: 34px 34px;
-  opacity: 0.15;
-  transform: rotate(8deg);
+    linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 38px 38px;
+  opacity: 0.14;
+  transform: rotate(10deg);
+  mask-image: radial-gradient(circle at 50% 35%, rgba(0,0,0,1), rgba(0,0,0,0.1) 58%, transparent 75%);
 }
 
 .bg__glow {
   position: absolute;
   border-radius: 999px;
-  filter: blur(60px);
-  opacity: 0.55;
+  filter: blur(64px);
+  opacity: 0.45;
 }
 
 .bg__glow--a {
   width: 520px;
   height: 520px;
   left: 50%;
-  top: 15%;
-  transform: translateX(-65%);
-  background: radial-gradient(circle at 30% 35%, rgba(255,255,255,0.16), transparent 60%);
+  top: 10%;
+  transform: translateX(-68%);
+  background: radial-gradient(circle at 30% 35%, rgba(255,255,255,0.14), transparent 62%);
 }
 
 .bg__glow--b {
-  width: 620px;
-  height: 620px;
+  width: 640px;
+  height: 640px;
   left: 50%;
-  top: 45%;
-  transform: translateX(-35%);
-  background: radial-gradient(circle at 55% 45%, rgba(255,255,255,0.12), transparent 62%);
+  top: 46%;
+  transform: translateX(-30%);
+  background: radial-gradient(circle at 55% 45%, rgba(255,255,255,0.11), transparent 64%);
 }
 
 .bg__noise {
   position: absolute;
   inset: 0;
-  opacity: 0.08;
+  opacity: 0.06;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
 }
@@ -566,20 +569,20 @@ onBeforeUnmount(() => {
 .bg__particles .p {
   position: absolute;
   border-radius: 999px;
-  background: rgba(255,255,255,0.9);
-  box-shadow: 0 0 22px rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.86);
+  box-shadow: 0 0 18px rgba(255,255,255,0.10);
 }
 
 /* Cursor glow */
 .bg__cursor {
   position: absolute;
   inset: 0;
-  opacity: 0.55;
+  opacity: 0.50;
   background:
     radial-gradient(
       320px 320px at var(--cx, 50%) var(--cy, 35%),
-      rgba(255,255,255,0.10),
-      transparent 60%
+      rgba(255,255,255,0.09),
+      transparent 62%
     );
   transition: opacity 180ms ease;
 }
@@ -606,13 +609,13 @@ onBeforeUnmount(() => {
 .logo-ring {
   position: absolute;
   inset: 0;
-  border-radius: 28px;
+  border-radius: 26px;
   background:
-    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.18), transparent 60%),
-    linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04));
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.16), transparent 62%),
+    linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03));
   border: 1px solid rgba(255,255,255,0.10);
   box-shadow:
-    0 28px 90px rgba(0,0,0,0.55),
+    0 26px 86px rgba(0,0,0,0.55),
     inset 0 0 0 1px rgba(255,255,255,0.05);
   overflow: hidden;
 }
@@ -620,17 +623,17 @@ onBeforeUnmount(() => {
 .logo-ring::after {
   content: "";
   position: absolute;
-  inset: -40%;
-  background: conic-gradient(from 180deg, transparent, rgba(255,255,255,0.24), transparent);
-  animation: spin 4.8s linear infinite;
-  opacity: 0.65;
+  inset: -42%;
+  background: conic-gradient(from 180deg, transparent, rgba(255,255,255,0.20), transparent);
+  animation: spin 6.2s linear infinite;
+  opacity: 0.55;
 }
 
 .logo-shine {
   position: absolute;
-  inset: 8%;
-  border-radius: 22px;
-  background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.14), transparent 55%);
+  inset: 9%;
+  border-radius: 20px;
+  background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.12), transparent 58%);
   z-index: 1;
 }
 
@@ -649,10 +652,10 @@ onBeforeUnmount(() => {
   padding: 8px 12px;
   border-radius: 999px;
   border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.035);
   color: rgba(255,255,255,0.82);
   font-size: 12px;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.35px;
 }
 
 .title {
@@ -663,18 +666,18 @@ onBeforeUnmount(() => {
 }
 
 .title__accent {
-  background: linear-gradient(90deg, rgba(255,255,255,0.95), rgba(255,255,255,0.60));
+  background: linear-gradient(90deg, rgba(255,255,255,0.98), rgba(255,255,255,0.62));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 10px 34px rgba(0,0,0,0.5);
+  text-shadow: 0 10px 34px rgba(0,0,0,0.55);
 }
 
 .subtitle {
   margin: 0 auto;
-  max-width: 720px;
+  max-width: 760px;
   font-size: clamp(14px, 1.35vw, 18px);
-  line-height: 1.45;
+  line-height: 1.55;
   color: rgba(255,255,255,0.72);
 }
 
@@ -693,7 +696,7 @@ onBeforeUnmount(() => {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
 .cta {
@@ -704,13 +707,13 @@ onBeforeUnmount(() => {
   cursor: pointer;
   color: rgba(255,255,255,0.90);
   background: rgba(255,255,255,0.04);
-  transition: background 160ms ease, border-color 160ms ease;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
   overflow: hidden;
 }
 
 .cta.primary {
-  background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(255,255,255,0.70));
-  color: rgba(8,10,14,0.95);
+  background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(255,255,255,0.72));
+  color: rgba(8,10,14,0.96);
   border-color: rgba(255,255,255,0.18);
   font-weight: 900;
   letter-spacing: 0.2px;
@@ -722,7 +725,7 @@ onBeforeUnmount(() => {
   position: absolute;
   inset: -2px;
   border-radius: 18px;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.32), transparent 55%);
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.26), transparent 58%);
   opacity: 0.35;
   pointer-events: none;
 }
@@ -742,10 +745,10 @@ onBeforeUnmount(() => {
 
 .shine {
   position: absolute;
-  inset: -50%;
-  background: conic-gradient(from 180deg, transparent, rgba(255,255,255,0.30), transparent);
-  animation: spin 5.2s linear infinite;
-  opacity: 0.55;
+  inset: -55%;
+  background: conic-gradient(from 180deg, transparent, rgba(255,255,255,0.26), transparent);
+  animation: spin 6.4s linear infinite;
+  opacity: 0.50;
 }
 
 /* dropdown */
@@ -765,12 +768,12 @@ onBeforeUnmount(() => {
 
 .panel {
   position: fixed;
-  width: min(360px, calc(100vw - 24px));
+  width: min(380px, calc(100vw - 24px));
   padding: 10px;
   border-radius: 18px;
   background: rgba(10, 12, 16, 0.94);
   border: 1px solid rgba(255,255,255,0.12);
-  box-shadow: 0 22px 70px rgba(0,0,0,0.60);
+  box-shadow: 0 22px 70px rgba(0,0,0,0.62);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   transform-origin: top left;
@@ -782,7 +785,7 @@ onBeforeUnmount(() => {
   text-align: left;
   border: 0;
   background: transparent;
-  color: rgba(255,255,255,0.88);
+  color: rgba(255,255,255,0.90);
   padding: 12px 12px;
   border-radius: 14px;
   cursor: pointer;
@@ -794,7 +797,7 @@ onBeforeUnmount(() => {
 
 .muted {
   display: block;
-  margin-top: 3px;
+  margin-top: 4px;
   font-size: 11px;
   color: rgba(255,255,255,0.62);
 }
@@ -811,8 +814,8 @@ onBeforeUnmount(() => {
   cursor: pointer;
   padding: 12px 12px;
   border-radius: 16px;
-  color: rgba(8,10,14,0.95);
-  background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(255,255,255,0.72));
+  color: rgba(8,10,14,0.96);
+  background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(255,255,255,0.74));
   font-weight: 900;
   position: relative;
   overflow: hidden;
@@ -821,9 +824,9 @@ onBeforeUnmount(() => {
 .panel__cta .spark {
   position: absolute;
   inset: -45%;
-  background: conic-gradient(from 180deg, transparent, rgba(255,255,255,0.35), transparent);
-  animation: spin 4.6s linear infinite;
-  opacity: 0.55;
+  background: conic-gradient(from 180deg, transparent, rgba(255,255,255,0.30), transparent);
+  animation: spin 6.0s linear infinite;
+  opacity: 0.50;
 }
 
 /* trust */
@@ -832,7 +835,7 @@ onBeforeUnmount(() => {
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 .trust__pill {
@@ -842,6 +845,14 @@ onBeforeUnmount(() => {
   border: 1px solid rgba(255,255,255,0.10);
   background: rgba(255,255,255,0.03);
   color: rgba(255,255,255,0.78);
+}
+
+.disclaimer {
+  margin: 8px auto 0;
+  max-width: 820px;
+  font-size: 11px;
+  line-height: 1.45;
+  color: rgba(255,255,255,0.52);
 }
 
 /* scroll hint */
@@ -857,7 +868,7 @@ onBeforeUnmount(() => {
   width: 2px;
   height: 34px;
   border-radius: 999px;
-  background: rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.32);
   position: relative;
   overflow: hidden;
 }
@@ -869,8 +880,8 @@ onBeforeUnmount(() => {
   top: -50%;
   width: 100%;
   height: 60%;
-  background: rgba(255,255,255,0.85);
-  animation: drip 1.4s ease-in-out infinite;
+  background: rgba(255,255,255,0.80);
+  animation: drip 1.5s ease-in-out infinite;
 }
 
 .scroll-hint__text {
@@ -884,7 +895,7 @@ onBeforeUnmount(() => {
 @keyframes drip {
   0% { transform: translateY(0); opacity: 0; }
   25% { opacity: 1; }
-  80% { transform: translateY(190%); opacity: 0.6; }
+  80% { transform: translateY(190%); opacity: 0.55; }
   100% { opacity: 0; }
 }
 
@@ -892,6 +903,7 @@ onBeforeUnmount(() => {
 @media (max-width: 520px) {
   .hero__container { padding-top: 56px; }
   .logo-wrap { width: min(190px, 62vw); }
+  .cta { width: 100%; justify-content: center; }
 }
 
 /* reduced motion */

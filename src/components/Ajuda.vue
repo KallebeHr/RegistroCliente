@@ -85,12 +85,7 @@
         </article>
       </div>
 
-      <div class="note">
-        <span class="noteDot" aria-hidden="true"></span>
-        <span>
-          Dica: isso vira um “tour” do site. O usuário entende cada parte e confia mais.
-        </span>
-      </div>
+     
     </div>
 
     <!-- MODAL COM DEMOS REAIS -->

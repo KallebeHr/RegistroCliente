@@ -21,7 +21,7 @@
           <p class="kicker">Onboarding • Novos clientes</p>
           <h1 class="title">Briefing do site (Advocacia)</h1>
           <p class="subtitle">
-            Responda com atenção! Isso deixa o orçamento mais rápido e o site mais certeiro.
+            Responda com atenção. Isso acelera o orçamento, evita retrabalho e deixa o site pronto para captar clientes.
           </p>
 
           <div class="progressWrap" aria-label="Progresso do preenchimento">
@@ -40,6 +40,12 @@
             </div>
             <p class="progressHint">{{ progressHint }}</p>
           </div>
+
+          <div class="heroTips" aria-label="Dicas rápidas">
+            <span class="tipPill">✅ Seja específico (ex: “execução rural / leilão”)</span>
+            <span class="tipPill">📍 Informe cidade alvo (SEO local)</span>
+            <span class="tipPill">🔒 Sem promessas de resultado (OAB)</span>
+          </div>
         </div>
       </div>
     </div>
@@ -50,12 +56,12 @@
         <div class="cardHead">
           <div>
             <div class="cardTitle">Cadastro do cliente</div>
-            <div class="cardHint">Campos bem específicos para projeto real</div>
+            <div class="cardHint">Campos específicos para site de advocacia com captação e conformidade.</div>
           </div>
 
           <div class="pill">
             <i class="mdi mdi-shield-check-outline" aria-hidden="true"></i>
-            <span>Seguro e objetivo</span>
+            <span>Seguro, objetivo e conforme OAB</span>
           </div>
         </div>
 
@@ -68,7 +74,7 @@
           </div>
 
           <div class="grid">
-            <!-- 1: tipo -->
+            <!-- 1 -->
             <div class="field field--full">
               <div class="labRow">
                 <span class="lab">1) Você é *</span>
@@ -76,22 +82,12 @@
               </div>
 
               <div class="chips" role="group" aria-label="Tipo de perfil">
-                <button
-                  class="chip"
-                  :class="{ on: f.tipo === 'Advogado(a)' }"
-                  type="button"
-                  @click="f.tipo = 'Advogado(a)'; tick()"
-                >
+                <button class="chip" :class="{ on: f.tipo === 'Advogado(a)' }" type="button" @click="f.tipo = 'Advogado(a)'; tick()">
                   <i class="mdi mdi-account-tie" aria-hidden="true"></i>
                   Advogado(a)
                 </button>
 
-                <button
-                  class="chip"
-                  :class="{ on: f.tipo === 'Escritório/Advocacia' }"
-                  type="button"
-                  @click="f.tipo = 'Escritório/Advocacia'; tick()"
-                >
+                <button class="chip" :class="{ on: f.tipo === 'Escritório/Advocacia' }" type="button" @click="f.tipo = 'Escritório/Advocacia'; tick()">
                   <i class="mdi mdi-office-building" aria-hidden="true"></i>
                   Escritório/Advocacia
                 </button>
@@ -105,7 +101,7 @@
               <p v-if="errors.tipo" class="err">{{ errors.tipo }}</p>
             </div>
 
-            <!-- 2: nome -->
+            <!-- 2 -->
             <label class="field">
               <div class="labRow">
                 <span class="lab">2) Nome completo *</span>
@@ -115,7 +111,7 @@
               <p v-if="errors.nome" class="err">{{ errors.nome }}</p>
             </label>
 
-            <!-- 3: nome marca -->
+            <!-- 3 -->
             <label class="field">
               <div class="labRow">
                 <span class="lab">3) Nome do escritório/marca *</span>
@@ -125,7 +121,7 @@
               <p v-if="errors.marca" class="err">{{ errors.marca }}</p>
             </label>
 
-            <!-- 4: whatsapp -->
+            <!-- 4 -->
             <label class="field">
               <div class="labRow">
                 <span class="lab">4) WhatsApp *</span>
@@ -135,7 +131,7 @@
               <p v-if="errors.whats" class="err">{{ errors.whats }}</p>
             </label>
 
-            <!-- 5: email -->
+            <!-- 5 -->
             <label class="field">
               <div class="labRow">
                 <span class="lab">5) E-mail *</span>
@@ -145,7 +141,7 @@
               <p v-if="errors.email" class="err">{{ errors.email }}</p>
             </label>
 
-            <!-- 6: cidade -->
+            <!-- 6 -->
             <label class="field">
               <div class="labRow">
                 <span class="lab">6) Cidade/UF</span>
@@ -154,7 +150,7 @@
               <input class="inp" v-model.trim="f.cidade" placeholder="Ex: Fortaleza/CE" @blur="tick" />
             </label>
 
-            <!-- 7: atende -->
+            <!-- 7 -->
             <div class="field">
               <div class="labRow">
                 <span class="lab">7) Atendimento</span>
@@ -162,17 +158,20 @@
               </div>
 
               <div class="seg" role="group" aria-label="Tipo de atendimento">
-                <button class="segBtn" :class="{ on: f.atendimento === 'Online' }" type="button" @click="f.atendimento='Online'; tick()">
-                  Online
-                </button>
-                <button class="segBtn" :class="{ on: f.atendimento === 'Presencial' }" type="button" @click="f.atendimento='Presencial'; tick()">
-                  Presencial
-                </button>
-                <button class="segBtn" :class="{ on: f.atendimento === 'Híbrido' }" type="button" @click="f.atendimento='Híbrido'; tick()">
-                  Híbrido
-                </button>
+                <button class="segBtn" :class="{ on: f.atendimento === 'Online' }" type="button" @click="f.atendimento='Online'; tick()">Online</button>
+                <button class="segBtn" :class="{ on: f.atendimento === 'Presencial' }" type="button" @click="f.atendimento='Presencial'; tick()">Presencial</button>
+                <button class="segBtn" :class="{ on: f.atendimento === 'Híbrido' }" type="button" @click="f.atendimento='Híbrido'; tick()">Híbrido</button>
               </div>
             </div>
+
+            <!-- ✅ NOVO 7.1 -->
+            <label class="field field--full">
+              <div class="labRow">
+                <span class="lab">7.1) Horário de atendimento</span>
+                <span class="opt">opcional</span>
+              </div>
+              <input class="inp" v-model.trim="f.horario" placeholder="Ex: Seg–Sex 08h às 18h" @blur="tick" />
+            </label>
           </div>
         </div>
 
@@ -181,14 +180,14 @@
           <div class="blockHead">
             <span class="blockDot" aria-hidden="true"></span>
             <div class="blockTitle">Atuação</div>
-            <div class="blockSub">Áreas, público e posicionamento</div>
+            <div class="blockSub">Áreas, público, posicionamento e o que mais vende</div>
           </div>
 
           <div class="grid">
-            <!-- 8: áreas multi -->
+            <!-- 8 -->
             <div class="field field--full">
               <div class="labRow">
-                <span class="lab">8) Áreas de atuação (pode marcar várias) *</span>
+                <span class="lab">8) Áreas de atuação (marque várias) *</span>
                 <span class="req">obrigatório</span>
               </div>
 
@@ -207,10 +206,10 @@
               </div>
 
               <p v-if="errors.areas" class="err">{{ errors.areas }}</p>
-              <p class="help">Dica: marque no máximo 3–5 para ficar mais objetivo no site.</p>
+              <p class="help">Dica: 3–5 áreas é o ideal para um site mais direto e com melhor conversão.</p>
             </div>
 
-            <!-- 9: público -->
+            <!-- 9 -->
             <div class="field field--full">
               <div class="labRow">
                 <span class="lab">9) Público principal *</span>
@@ -218,28 +217,16 @@
               </div>
 
               <div class="radios" role="radiogroup" aria-label="Público principal">
-                <label class="radio">
-                  <input type="radio" name="publico" value="Pessoa física" v-model="f.publico" @change="tick" />
-                  <span>Pessoa física</span>
-                </label>
-                <label class="radio">
-                  <input type="radio" name="publico" value="Empresas" v-model="f.publico" @change="tick" />
-                  <span>Empresas</span>
-                </label>
-                <label class="radio">
-                  <input type="radio" name="publico" value="Agro / Rural" v-model="f.publico" @change="tick" />
-                  <span>Agro / Rural</span>
-                </label>
-                <label class="radio">
-                  <input type="radio" name="publico" value="Misto" v-model="f.publico" @change="tick" />
-                  <span>Misto</span>
-                </label>
+                <label class="radio"><input type="radio" name="publico" value="Pessoa física" v-model="f.publico" @change="tick" /><span>Pessoa física</span></label>
+                <label class="radio"><input type="radio" name="publico" value="Empresas" v-model="f.publico" @change="tick" /><span>Empresas</span></label>
+                <label class="radio"><input type="radio" name="publico" value="Agro / Rural" v-model="f.publico" @change="tick" /><span>Agro / Rural</span></label>
+                <label class="radio"><input type="radio" name="publico" value="Misto" v-model="f.publico" @change="tick" /><span>Misto</span></label>
               </div>
 
               <p v-if="errors.publico" class="err">{{ errors.publico }}</p>
             </div>
 
-            <!-- 10: diferencial -->
+            <!-- 10 -->
             <label class="field field--full">
               <div class="labRow">
                 <span class="lab">10) Diferenciais (1–3 frases) *</span>
@@ -249,10 +236,44 @@
                 class="inp ta"
                 rows="3"
                 v-model.trim="f.diferenciais"
-                placeholder="Ex: atendimento rápido, comunicação clara, foco em agronegócio..."
+                placeholder="Ex: comunicação clara, atendimento rápido, experiência em execução/agronegócio..."
                 @blur="tick"
               />
               <p v-if="errors.diferenciais" class="err">{{ errors.diferenciais }}</p>
+              <p class="help">Dica: pense no que um cliente diria: “Escolhi por…”</p>
+            </label>
+
+            <!-- ✅ NOVO 10.1 -->
+            <label class="field field--full">
+              <div class="labRow">
+                <span class="lab">10.1) Top 3 serviços que você mais quer vender *</span>
+                <span class="req">obrigatório</span>
+              </div>
+              <textarea
+                class="inp ta"
+                rows="3"
+                v-model.trim="f.topServicos"
+                placeholder="Ex: 1) Defesa em execução rural (suspensão de leilão)  2) Revisão de crédito rural  3) Negociação de dívidas"
+                @blur="tick"
+              />
+              <p v-if="errors.topServicos" class="err">{{ errors.topServicos }}</p>
+              <p class="help">Isso vira CTA e páginas que mais convertem (principalmente no agro).</p>
+            </label>
+
+            <!-- ✅ NOVO 10.2 -->
+            <label class="field field--full">
+              <div class="labRow">
+                <span class="lab">10.2) Cidade(s) alvo do SEO local *</span>
+                <span class="req">obrigatório</span>
+              </div>
+              <input
+                class="inp"
+                v-model.trim="f.seoCidades"
+                placeholder="Ex: Pedro II/PI, Teresina/PI, Parnaíba/PI"
+                @blur="tick"
+              />
+              <p v-if="errors.seoCidades" class="err">{{ errors.seoCidades }}</p>
+              <p class="help">Dica: SEO local é o que mais traz lead orgânico pra advocacia.</p>
             </label>
           </div>
         </div>
@@ -266,7 +287,7 @@
           </div>
 
           <div class="grid">
-            <!-- 11: objetivo -->
+            <!-- 11 -->
             <label class="field field--full">
               <div class="labRow">
                 <span class="lab">11) Objetivo do site *</span>
@@ -288,7 +309,7 @@
               <p v-if="errors.objetivo" class="err">{{ errors.objetivo }}</p>
             </label>
 
-            <!-- 12: páginas (quantidade) -->
+            <!-- 12 -->
             <label class="field">
               <div class="labRow">
                 <span class="lab">12) Quantas páginas? *</span>
@@ -309,7 +330,7 @@
               <p v-if="errors.paginas" class="err">{{ errors.paginas }}</p>
             </label>
 
-            <!-- 13: tom -->
+            <!-- 13 -->
             <label class="field">
               <div class="labRow">
                 <span class="lab">13) Tom do design *</span>
@@ -331,10 +352,10 @@
               <p v-if="errors.tom" class="err">{{ errors.tom }}</p>
             </label>
 
-            <!-- 14: estrutura de páginas (multi) -->
+            <!-- 14 -->
             <div class="field field--full">
               <div class="labRow">
-                <span class="lab">14) Estrutura desejada (marque as páginas) *</span>
+                <span class="lab">14) Estrutura desejada (páginas) *</span>
                 <span class="req">obrigatório</span>
               </div>
 
@@ -353,12 +374,13 @@
               </div>
 
               <p v-if="errors.estrutura" class="err">{{ errors.estrutura }}</p>
+              <p class="help">Dica: “Home + Áreas + Sobre + Contato” já converte MUITO bem.</p>
             </div>
 
-            <!-- 15: CTA principal -->
+            <!-- 15 -->
             <label class="field field--full">
               <div class="labRow">
-                <span class="lab">15) CTA principal do site (ação que mais importa) *</span>
+                <span class="lab">15) CTA principal do site *</span>
                 <span class="req">obrigatório</span>
               </div>
 
@@ -366,7 +388,7 @@
                 <select class="inp select" v-model="f.cta" @change="tick">
                   <option value="" disabled>Selecione</option>
                   <option>WhatsApp (conversa imediata)</option>
-                  <option>Formulário (captar lead qualificado)</option>
+                  <option>Formulário (lead qualificado)</option>
                   <option>Agendamento (calendário/horários)</option>
                   <option>Ligação (clique para ligar)</option>
                   <option>Direcionar para Instagram</option>
@@ -377,10 +399,10 @@
               <p v-if="errors.cta" class="err">{{ errors.cta }}</p>
             </label>
 
-            <!-- 16: funcionalidades -->
+            <!-- 16 -->
             <div class="field field--full">
               <div class="labRow">
-                <span class="lab">16) Funcionalidades desejadas (marque) *</span>
+                <span class="lab">16) Funcionalidades desejadas *</span>
                 <span class="req">obrigatório</span>
               </div>
 
@@ -401,10 +423,25 @@
               <p v-if="errors.features" class="err">{{ errors.features }}</p>
             </div>
 
-            <!-- 17: integrações -->
+            <!-- ✅ NOVO 16.1 - prova social -->
+            <label class="field field--full">
+              <div class="labRow">
+                <span class="lab">16.1) Prova social (se tiver) — links/prints *</span>
+                <span class="opt">opcional</span>
+              </div>
+              <textarea
+                class="inp ta"
+                rows="3"
+                v-model.trim="f.provaSocial"
+                placeholder="Ex: link do Google, print de feedback, depoimentos, matérias..."
+                @blur="tick"
+              />
+            </label>
+
+            <!-- 17 -->
             <div class="field field--full">
               <div class="labRow">
-                <span class="lab">17) Integrações e rastreamento (marque) *</span>
+                <span class="lab">17) Integrações e rastreamento *</span>
                 <span class="req">obrigatório</span>
               </div>
 
@@ -424,10 +461,34 @@
               </div>
 
               <p v-if="errors.integracoes" class="err">{{ errors.integracoes }}</p>
-              <p class="help">Se você faz tráfego pago, Pixel/Tag Manager são importantes.</p>
+              <p class="help">Se faz tráfego pago, Pixel/Tag Manager é essencial.</p>
             </div>
 
-            <!-- 18: referência -->
+            <!-- ✅ NOVO 17.1 -->
+            <div class="field field--full">
+              <div class="labRow">
+                <span class="lab">17.1) Tráfego pago (Meta/Google) *</span>
+                <span class="req">obrigatório</span>
+              </div>
+
+              <div class="seg" role="group" aria-label="Tráfego pago">
+                <button class="segBtn" :class="{ on: f.trafego === 'Sim' }" type="button" @click="f.trafego='Sim'; tick()">Sim</button>
+                <button class="segBtn" :class="{ on: f.trafego === 'Não' }" type="button" @click="f.trafego='Não'; f.verba=''; tick()">Não</button>
+                <button class="segBtn" :class="{ on: f.trafego === 'Pretendo' }" type="button" @click="f.trafego='Pretendo'; tick()">Pretendo</button>
+              </div>
+
+              <p v-if="errors.trafego" class="err">{{ errors.trafego }}</p>
+
+              <div class="reveal" :class="{ on: f.trafego === 'Sim' || f.trafego === 'Pretendo' }">
+                <label class="field field--full">
+                  <span class="lab">Verba média mensal (aprox.) *</span>
+                  <input class="inp" v-model.trim="f.verba" placeholder="Ex: R$ 500 / R$ 1.500 / R$ 3.000" @blur="tick" />
+                  <p v-if="errors.verba" class="err">{{ errors.verba }}</p>
+                </label>
+              </div>
+            </div>
+
+            <!-- 18 -->
             <div class="field field--full">
               <div class="labRow">
                 <span class="lab">18) Tem site de referência? *</span>
@@ -441,15 +502,16 @@
 
               <div class="reveal" :class="{ on: f.temRef === 'Sim' }">
                 <label class="field field--full">
-                  <span class="lab">Se sim, cole o link</span>
+                  <span class="lab">Se sim, cole o link *</span>
                   <input class="inp" v-model.trim="f.refLink" placeholder="https://..." @blur="tick" />
                 </label>
               </div>
 
               <p v-if="errors.temRef" class="err">{{ errors.temRef }}</p>
+              <p class="help">Referências ajudam a acertar “o estilo” de primeira.</p>
             </div>
 
-            <!-- 19: domínio -->
+            <!-- 19 -->
             <div class="field">
               <div class="labRow">
                 <span class="lab">19) Já tem domínio? *</span>
@@ -463,7 +525,7 @@
               <p v-if="errors.dominio" class="err">{{ errors.dominio }}</p>
             </div>
 
-            <!-- 20: prazo -->
+            <!-- 20 -->
             <label class="field">
               <div class="labRow">
                 <span class="lab">20) Prazo ideal *</span>
@@ -473,7 +535,7 @@
               <div class="selectWrap">
                 <select class="inp select" v-model="f.prazo" @change="tick">
                   <option value="" disabled>Selecione</option>
-                  <option>Urgente (até 1 dias)</option>
+                  <option>Urgente (até 1 dia)</option>
                   <option>Até 3 dias</option>
                   <option>Até 4 dias</option>
                   <option>Sem pressa</option>
@@ -484,7 +546,7 @@
               <p v-if="errors.prazo" class="err">{{ errors.prazo }}</p>
             </label>
 
-            <!-- ✅ NOVO 21: Localização / Unidades -->
+            <!-- 21 -->
             <div class="field field--full">
               <div class="labRow">
                 <span class="lab">21) Localização do escritório (e unidades) *</span>
@@ -492,43 +554,21 @@
               </div>
 
               <div class="gridLoc">
-                <!-- principal -->
                 <label class="field">
                   <span class="lab">Cidade/UF principal *</span>
-                  <input
-                    class="inp"
-                    v-model.trim="f.localPrincipal"
-                    placeholder="Ex: Pedro II/PI"
-                    @blur="tick"
-                  />
+                  <input class="inp" v-model.trim="f.localPrincipal" placeholder="Ex: Pedro II/PI" @blur="tick" />
                   <p v-if="errors.localPrincipal" class="err">{{ errors.localPrincipal }}</p>
                 </label>
 
-                <!-- tem mais de uma? -->
                 <div class="field">
                   <span class="lab">Tem mais de uma unidade? *</span>
                   <div class="seg" role="group" aria-label="Mais de uma unidade">
-                    <button
-                      class="segBtn"
-                      :class="{ on: f.multiUnidade === 'Sim' }"
-                      type="button"
-                      @click="f.multiUnidade='Sim'; tick()"
-                    >
-                      Sim
-                    </button>
-                    <button
-                      class="segBtn"
-                      :class="{ on: f.multiUnidade === 'Não' }"
-                      type="button"
-                      @click="f.multiUnidade='Não'; f.outrasUnidades=''; tick()"
-                    >
-                      Não
-                    </button>
+                    <button class="segBtn" :class="{ on: f.multiUnidade === 'Sim' }" type="button" @click="f.multiUnidade='Sim'; tick()">Sim</button>
+                    <button class="segBtn" :class="{ on: f.multiUnidade === 'Não' }" type="button" @click="f.multiUnidade='Não'; f.outrasUnidades=''; tick()">Não</button>
                   </div>
                   <p v-if="errors.multiUnidade" class="err">{{ errors.multiUnidade }}</p>
                 </div>
 
-                <!-- quais? -->
                 <div class="reveal field--full" :class="{ on: f.multiUnidade === 'Sim' }">
                   <label class="field field--full">
                     <span class="lab">Se sim, quais e onde? (liste) *</span>
@@ -540,13 +580,13 @@
                       @blur="tick"
                     />
                     <p v-if="errors.outrasUnidades" class="err">{{ errors.outrasUnidades }}</p>
-                    <p class="help">Isso ajuda a decidir mapa, SEO local e páginas por unidade.</p>
+                    <p class="help">Isso define mapa, SEO local e páginas por unidade.</p>
                   </label>
                 </div>
               </div>
             </div>
 
-            <!-- 22: conformidade OAB/LGPD -->
+            <!-- 22 -->
             <div class="field field--full">
               <div class="labRow">
                 <span class="lab">22) Conformidade (OAB/LGPD) *</span>
@@ -556,16 +596,75 @@
               <div class="checkRow">
                 <label class="check">
                   <input type="checkbox" v-model="f.oab" @change="tick" />
-                  <span>Quero evitar promessas de resultado / linguagem proibida e manter um texto institucional.</span>
+                  <span>Manter linguagem institucional (sem promessas de resultado) e evitar termos proibidos.</span>
                 </label>
                 <label class="check">
                   <input type="checkbox" v-model="f.lgpd" @change="tick" />
-                  <span>Quero aviso de privacidade e consentimento básico (LGPD) no formulário.</span>
+                  <span>Incluir aviso de privacidade e consentimento básico (LGPD) no formulário.</span>
                 </label>
               </div>
 
               <p v-if="errors.conformidade" class="err">{{ errors.conformidade }}</p>
+              <p class="help">Isso protege o escritório e evita dor de cabeça.</p>
             </div>
+          </div>
+        </div>
+
+        <!-- ✅ BLOCO 3.5 (DOCUMENTOS E PERFIL) -->
+        <div class="block">
+          <div class="blockHead">
+            <span class="blockDot" aria-hidden="true"></span>
+            <div class="blockTitle">Documentos e perfil</div>
+            <div class="blockSub">OAB, redes, Google e materiais que aceleram o projeto</div>
+          </div>
+
+          <div class="grid">
+            <label class="field">
+              <div class="labRow">
+                <span class="lab">23) OAB/UF (ex: 12345/PI) *</span>
+                <span class="req">obrigatório</span>
+              </div>
+              <input class="inp" v-model.trim="f.oabUf" placeholder="Ex: 12345/PI" @blur="tick" />
+              <p v-if="errors.oabUf" class="err">{{ errors.oabUf }}</p>
+            </label>
+
+            <label class="field">
+              <div class="labRow">
+                <span class="lab">24) Instagram (link)</span>
+                <span class="opt">opcional</span>
+              </div>
+              <input class="inp" v-model.trim="f.instagram" placeholder="https://instagram.com/..." @blur="tick" />
+            </label>
+
+            <label class="field">
+              <div class="labRow">
+                <span class="lab">25) Já tem site atual?</span>
+                <span class="opt">opcional</span>
+              </div>
+              <input class="inp" v-model.trim="f.siteAtual" placeholder="https://..." @blur="tick" />
+            </label>
+
+            <label class="field">
+              <div class="labRow">
+                <span class="lab">26) Google Meu Negócio (link)</span>
+                <span class="opt">opcional</span>
+              </div>
+              <input class="inp" v-model.trim="f.gmb" placeholder="https://g.page/..." @blur="tick" />
+            </label>
+
+            <label class="field field--full">
+              <div class="labRow">
+                <span class="lab">27) Endereço completo (como deve aparecer no site)</span>
+                <span class="opt">opcional</span>
+              </div>
+              <textarea
+                class="inp ta"
+                rows="2"
+                v-model.trim="f.enderecoCompleto"
+                placeholder="Ex: Av. X, 123, Centro, Pedro II/PI • CEP 00000-000"
+                @blur="tick"
+              />
+            </label>
           </div>
         </div>
 
@@ -578,10 +677,10 @@
           </div>
 
           <div class="grid">
-            <!-- 23: identidade -->
+            <!-- 28 -->
             <div class="field field--full">
               <div class="labRow">
-                <span class="lab">23) Você já tem logo / identidade visual? *</span>
+                <span class="lab">28) Você já tem logo / identidade visual? *</span>
                 <span class="req">obrigatório</span>
               </div>
 
@@ -600,10 +699,10 @@
               <p v-if="errors.identidade" class="err">{{ errors.identidade }}</p>
             </div>
 
-            <!-- 24: conteúdo -->
+            <!-- 29 -->
             <div class="field field--full">
               <div class="labRow">
-                <span class="lab">24) Você já tem conteúdos? (marque) *</span>
+                <span class="lab">29) Você já tem conteúdos? (marque) *</span>
                 <span class="req">obrigatório</span>
               </div>
 
@@ -625,28 +724,48 @@
               <p v-if="errors.conteudo" class="err">{{ errors.conteudo }}</p>
             </div>
 
-            <!-- 25: observações -->
+            <!-- 30 -->
             <label class="field field--full">
               <div class="labRow">
-                <span class="lab">25) Observações finais *</span>
+                <span class="lab">30) Observações finais *</span>
                 <span class="req">obrigatório</span>
               </div>
               <textarea
                 class="inp ta"
                 rows="4"
                 v-model.trim="f.obs"
-                placeholder="Ex: quero um site premium, com foco em confiança e captação..."
+                placeholder="Ex: foco em confiança, captação, linguagem institucional, estilo premium..."
                 @blur="tick"
               />
               <p v-if="errors.obs" class="err">{{ errors.obs }}</p>
             </label>
+
+            <!-- ✅ NOVO 30.1 (LGPD) -->
+            <div class="field field--full">
+              <div class="labRow">
+                <span class="lab">30.1) Consentimento *</span>
+                <span class="req">obrigatório</span>
+              </div>
+
+              <div class="checkRow">
+                <label class="check">
+                  <input type="checkbox" v-model="f.consent" @change="tick" />
+                  <span>
+                    Autorizo o contato por WhatsApp/E-mail e concordo com o uso dos dados apenas para fins de atendimento e orçamento.
+                  </span>
+                </label>
+              </div>
+
+              <p v-if="errors.consent" class="err">{{ errors.consent }}</p>
+            </div>
           </div>
         </div>
 
         <!-- ACTIONS -->
         <div class="actions">
-          <button class="btn primary" type="submit">
-            Enviar cadastro <span class="arrow">→</span>
+          <button class="btn primary" type="submit" :disabled="isSending" :class="{ disabled: isSending }">
+            <span v-if="!isSending">Enviar cadastro <span class="arrow">→</span></span>
+            <span v-else>Enviando...</span>
           </button>
 
           <button class="btn ghost" type="button" @click="copyJson">
@@ -655,7 +774,9 @@
           </button>
         </div>
 
-        <div class="hint">✅ Ao enviar, você pode salvar no banco / enviar para WhatsApp / encaminhar no e-mail.</div>
+        <div class="hint">
+          ✅ Ao enviar, você pode salvar no banco, encaminhar no WhatsApp, ou usar isso para montar proposta e estrutura do site.
+        </div>
       </form>
 
       <!-- Snack -->
@@ -665,7 +786,7 @@
       </div>
     </div>
 
-    <a class="toTop" @click="goToIndex" href="#inicio">Voltar para a pagina inicial</a>
+    <a class="toTop" @click="goToIndex" href="#inicio">Voltar para a página inicial</a>
   </section>
 </template>
 
@@ -673,8 +794,7 @@
 import { computed, onBeforeUnmount, onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 
-// ✅ Firestore
-import { db } from "@/firebase"; // ajuste se seu caminho for diferente
+import { db } from "@/firebase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 const router = useRouter();
@@ -742,10 +862,13 @@ const f = reactive({
   email: "",
   cidade: "",
   atendimento: "Híbrido",
+  horario: "",
 
   areas: [],
   publico: "",
   diferenciais: "",
+  topServicos: "",
+  seoCidades: "",
 
   objetivo: "",
   paginas: "",
@@ -754,12 +877,13 @@ const f = reactive({
   cta: "",
   features: [],
   integracoes: [],
+  trafego: "",
+  verba: "",
   temRef: "",
   refLink: "",
   dominio: "",
   prazo: "",
 
-  // Localização / Unidades
   localPrincipal: "",
   multiUnidade: "",
   outrasUnidades: "",
@@ -767,9 +891,18 @@ const f = reactive({
   oab: false,
   lgpd: false,
 
+  // docs/perfil
+  oabUf: "",
+  instagram: "",
+  siteAtual: "",
+  gmb: "",
+  enderecoCompleto: "",
+
   identidade: "",
   conteudo: [],
-  obs: ""
+  provaSocial: "",
+  obs: "",
+  consent: false
 });
 
 /* errors */
@@ -782,6 +915,8 @@ const errors = reactive({
   areas: "",
   publico: "",
   diferenciais: "",
+  topServicos: "",
+  seoCidades: "",
   objetivo: "",
   paginas: "",
   tom: "",
@@ -789,6 +924,8 @@ const errors = reactive({
   cta: "",
   features: "",
   integracoes: "",
+  trafego: "",
+  verba: "",
   temRef: "",
   dominio: "",
   prazo: "",
@@ -798,9 +935,11 @@ const errors = reactive({
   outrasUnidades: "",
 
   conformidade: "",
+  oabUf: "",
   identidade: "",
   conteudo: "",
-  obs: ""
+  obs: "",
+  consent: ""
 });
 
 /* helpers */
@@ -849,47 +988,48 @@ function pageIcon(p) {
 
 /* progress */
 const requiredKeys = [
-  "tipo",
-  "nome",
-  "marca",
-  "whats",
-  "email",
-  "areas",
-  "publico",
-  "diferenciais",
-  "objetivo",
-  "paginas",
-  "tom",
-  "estrutura",
-  "cta",
-  "features",
-  "integracoes",
-  "temRef",
-  "dominio",
-  "prazo",
-  "localPrincipal",
-  "multiUnidade",
-  "identidade",
-  "conteudo",
-  "obs"
+  "tipo","nome","marca","whats","email",
+  "areas","publico","diferenciais","topServicos","seoCidades",
+  "objetivo","paginas","tom","estrutura","cta","features","integracoes",
+  "trafego","temRef","dominio","prazo",
+  "localPrincipal","multiUnidade",
+  "oabUf",
+  "identidade","conteudo","obs",
+  "consent"
 ];
 
 const progressPct = computed(() => {
   let done = 0;
+
   for (const k of requiredKeys) {
     const v = f[k];
     const ok = Array.isArray(v) ? v.length > 0 : String(v || "").trim().length > 0;
     if (ok) done++;
   }
 
-  if (f.oab && f.lgpd) done += 1;
+  // conformidade (2 checks)
+  if (f.oab) done += 1;
+  if (f.lgpd) done += 1;
 
+  // unidades extras
   const extraUnitsNeeded = f.multiUnidade === "Sim";
-  const extraUnitsOk = !extraUnitsNeeded || String(f.outrasUnidades || "").trim().length > 0;
-  if (extraUnitsNeeded) done += extraUnitsOk ? 1 : 0;
+  if (extraUnitsNeeded) {
+    if (String(f.outrasUnidades || "").trim().length > 0) done += 1;
+  }
 
-  const base = requiredKeys.length + 1 + (extraUnitsNeeded ? 1 : 0);
-  return Math.round((done / base) * 100);
+  // verba se trafego sim/pretendo
+  const needsVerba = f.trafego === "Sim" || f.trafego === "Pretendo";
+  if (needsVerba) {
+    if (String(f.verba || "").trim().length > 0) done += 1;
+  }
+
+  const base =
+    requiredKeys.length +
+    2 + // oab + lgpd
+    (extraUnitsNeeded ? 1 : 0) +
+    (needsVerba ? 1 : 0);
+
+  return Math.min(100, Math.round((done / base) * 100));
 });
 
 const progressHint = computed(() => {
@@ -920,50 +1060,55 @@ function validate() {
   const okPhone = (v) => digits(v).length >= 10;
 
   if (!f.tipo) errors.tipo = "Escolha uma opção.";
-  if (!f.nome.trim()) errors.nome = "Preencha o nome.";
-  if (!f.marca.trim()) errors.marca = "Preencha a marca/escritório.";
+  if (!String(f.nome).trim()) errors.nome = "Preencha o nome.";
+  if (!String(f.marca).trim()) errors.marca = "Preencha a marca/escritório.";
   if (!okPhone(f.whats)) errors.whats = "Digite um WhatsApp válido.";
   if (!isEmail(f.email)) errors.email = "Digite um e-mail válido.";
 
   if (!f.areas.length) errors.areas = "Marque pelo menos 1 área.";
   if (!f.publico) errors.publico = "Escolha o público principal.";
-  if (!f.diferenciais.trim()) errors.diferenciais = "Descreva seus diferenciais.";
+  if (!String(f.diferenciais).trim()) errors.diferenciais = "Descreva seus diferenciais.";
+  if (!String(f.topServicos).trim()) errors.topServicos = "Liste 3 serviços principais.";
+  if (!String(f.seoCidades).trim()) errors.seoCidades = "Informe a(s) cidade(s) alvo do SEO.";
 
   if (!f.objetivo) errors.objetivo = "Selecione o objetivo do site.";
   if (!f.paginas) errors.paginas = "Selecione a quantidade de páginas.";
   if (!f.tom) errors.tom = "Selecione o tom do design.";
-
   if (!f.estrutura.length) errors.estrutura = "Marque pelo menos 1 página.";
   if (!f.cta) errors.cta = "Selecione o CTA principal.";
-
   if (!f.features.length) errors.features = "Marque pelo menos 1 funcionalidade.";
   if (!f.integracoes.length) errors.integracoes = "Marque pelo menos 1 opção.";
 
+  if (!f.trafego) errors.trafego = "Selecione uma opção.";
+  const needsVerba = f.trafego === "Sim" || f.trafego === "Pretendo";
+  if (needsVerba && !String(f.verba).trim()) errors.verba = "Informe a verba média (aprox.).";
+
   if (!f.temRef) errors.temRef = "Selecione Sim ou Não.";
+  if (f.temRef === "Sim" && !String(f.refLink).trim()) errors.temRef = "Cole o link de referência.";
   if (!f.dominio) errors.dominio = "Selecione uma opção.";
   if (!f.prazo) errors.prazo = "Selecione o prazo.";
 
-  if (!f.localPrincipal.trim()) errors.localPrincipal = "Informe a cidade/UF principal.";
+  if (!String(f.localPrincipal).trim()) errors.localPrincipal = "Informe a cidade/UF principal.";
   if (!f.multiUnidade) errors.multiUnidade = "Selecione Sim ou Não.";
-  if (f.multiUnidade === "Sim" && !f.outrasUnidades.trim()) {
+  if (f.multiUnidade === "Sim" && !String(f.outrasUnidades).trim()) {
     errors.outrasUnidades = "Liste as unidades (cidade/UF) ou como atende em cada local.";
   }
 
-  if (!f.oab || !f.lgpd) errors.conformidade = "Marque as duas opções de conformidade.";
+  if (!f.oab || !f.lgpd) errors.conformidade = "Marque as duas opções (OAB e LGPD).";
+
+  if (!String(f.oabUf).trim()) errors.oabUf = "Informe a OAB/UF.";
 
   if (!f.identidade) errors.identidade = "Selecione uma opção.";
   if (!f.conteudo.length) errors.conteudo = "Marque pelo menos 1.";
-  if (!f.obs.trim()) errors.obs = "Escreva uma observação final.";
+  if (!String(f.obs).trim()) errors.obs = "Escreva uma observação final.";
 
-  if (f.temRef === "Sim" && !f.refLink.trim()) {
-    showSnack("Dica: cole o link de referência (ajuda muito).", "mdi-lightbulb-on-outline");
-  }
+  if (!f.consent) errors.consent = "Você precisa autorizar o contato (consentimento).";
 
   return !Object.values(errors).some(Boolean);
 }
 
 function scrollToFirstError() {
-  const el = root.value?.querySelector(".err:not(:empty)");
+  const el = root.value?.querySelector(".err");
   el?.scrollIntoView?.({ behavior: "smooth", block: "center" });
 }
 
@@ -987,15 +1132,24 @@ function tick() {
 const isSending = ref(false);
 
 function sanitizeFormPayload() {
-  const payload = JSON.parse(JSON.stringify(f)); // remove proxies do reactive
-  // normalizações leves (opcional)
+  const payload = JSON.parse(JSON.stringify(f));
   payload.whats = String(payload.whats || "").trim();
   payload.email = String(payload.email || "").trim().toLowerCase();
   return payload;
 }
 
-// coleção sugerida (pode trocar o nome)
 const COLLECTION_NAME = "cadastros_clientes";
+
+function pad2(n) { return String(n).padStart(2, "0"); }
+function formatNowBR(date = new Date()) {
+  const dia = pad2(date.getDate());
+  const mes = pad2(date.getMonth() + 1);
+  const ano = date.getFullYear();
+  const hora = pad2(date.getHours());
+  const min = pad2(date.getMinutes());
+  const seg = pad2(date.getSeconds());
+  return `${dia}/${mes}/${ano} ${hora}:${min}:${seg}`;
+}
 
 async function submit() {
   if (isSending.value) return;
@@ -1007,60 +1161,34 @@ async function submit() {
   }
 
   isSending.value = true;
-  showSnack("Enviando...", "mdi-loading"); // ícone MDI existe no seu set? se não, troque p/ mdi-progress-clock
-function pad2(n) {
-  return String(n).padStart(2, "0");
-}
+  showSnack("Enviando...", "mdi-progress-clock");
 
-function formatNowBR(date = new Date()) {
-  const dia = pad2(date.getDate());
-  const mes = pad2(date.getMonth() + 1);
-  const ano = date.getFullYear();
-  const hora = pad2(date.getHours());
-  const min = pad2(date.getMinutes());
-  const seg = pad2(date.getSeconds());
-  return `${dia}/${mes}/${ano} ${hora}:${min}:${seg}`;
-}
   try {
     const payload = sanitizeFormPayload();
+    const now = new Date();
 
-const now = new Date();
-
-const docRef = await addDoc(collection(db, COLLECTION_NAME), {
-  ...payload,
-
-  // ✅ timestamp confiável do servidor (pra consultas)
-  createdAt: serverTimestamp(),
-
-  // ✅ data/hora exata “humana” (pra você ler fácil)
-  createdAtBR: formatNowBR(now),
-
-  // (opcional) também salvar números separados
-  createdAtParts: {
-    dia: now.getDate(),
-    mes: now.getMonth() + 1,
-    ano: now.getFullYear(),
-    hora: now.getHours(),
-    minuto: now.getMinutes(),
-    segundo: now.getSeconds(),
-  },
-
-  status: "novo",
-  origin: "form-clientes",
-  userAgent: navigator.userAgent || null,
-});
-
+    await addDoc(collection(db, COLLECTION_NAME), {
+      ...payload,
+      createdAt: serverTimestamp(),
+      createdAtBR: formatNowBR(now),
+      createdAtParts: {
+        dia: now.getDate(),
+        mes: now.getMonth() + 1,
+        ano: now.getFullYear(),
+        hora: now.getHours(),
+        minuto: now.getMinutes(),
+        segundo: now.getSeconds(),
+      },
+      status: "novo",
+      origin: "form-clientes",
+      userAgent: navigator.userAgent || null,
+    });
 
     showSnack("Cadastro enviado com sucesso ✅", "mdi-check-circle");
-
-    // (Opcional) resetar após enviar
     resetForm();
-
-    // (Opcional) log
-    // console.log("Enviado:", docRef.id);
   } catch (err) {
     console.error(err);
-    showSnack("Falha ao enviar. Verifique o Firestore Rules.", "mdi-alert-circle");
+    showSnack("Falha ao enviar. Verifique as regras do Firestore.", "mdi-alert-circle");
   } finally {
     isSending.value = false;
   }
@@ -1075,10 +1203,13 @@ function resetForm() {
   f.email = "";
   f.cidade = "";
   f.atendimento = "Híbrido";
+  f.horario = "";
 
   f.areas = [];
   f.publico = "";
   f.diferenciais = "";
+  f.topServicos = "";
+  f.seoCidades = "";
 
   f.objetivo = "";
   f.paginas = "";
@@ -1087,6 +1218,8 @@ function resetForm() {
   f.cta = "";
   f.features = [];
   f.integracoes = [];
+  f.trafego = "";
+  f.verba = "";
   f.temRef = "";
   f.refLink = "";
   f.dominio = "";
@@ -1099,15 +1232,22 @@ function resetForm() {
   f.oab = false;
   f.lgpd = false;
 
+  f.oabUf = "";
+  f.instagram = "";
+  f.siteAtual = "";
+  f.gmb = "";
+  f.enderecoCompleto = "";
+
   f.identidade = "";
   f.conteudo = [];
+  f.provaSocial = "";
   f.obs = "";
+  f.consent = false;
 
-  // limpa erros e mantém snack
   for (const k of Object.keys(errors)) errors[k] = "";
 }
 
-/* ============ LOGO TILT ============ */
+/* LOGO TILT */
 function onTilt(e) {
   if (!logoWrap.value || prefersReduced || isTouch) return;
   const r = logoWrap.value.getBoundingClientRect();
@@ -1164,10 +1304,9 @@ onBeforeUnmount(() => {
 });
 </script>
 
-
 <style scoped>
 /* =====================
-   CENTRALIZAÇÃO “FORÇADA”
+   CENTRALIZAÇÃO
    ===================== */
 .intake {
   position: relative;
@@ -1175,17 +1314,14 @@ onBeforeUnmount(() => {
   overflow: hidden;
   background: #07080b;
   color: rgba(255, 255, 255, 0.92);
-
   display: flex;
   flex-direction: column;
   align-items: center;
-
   --px: 50%;
   --py: 35%;
   --pOpacity: 0;
 }
 
-/* Faz os containers ocuparem 100% e centralizarem o conteúdo interno */
 .hero__container,
 .container {
   width: 100%;
@@ -1194,11 +1330,7 @@ onBeforeUnmount(() => {
 }
 
 /* BG */
-.bg {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
+.bg { position: absolute; inset: 0; pointer-events: none; }
 .bg__grid {
   position: absolute;
   inset: -40%;
@@ -1237,19 +1369,23 @@ onBeforeUnmount(() => {
 }
 
 /* HERO */
-.hero__container {
-  position: relative;
-  z-index: 2;
-  padding: 0 18px;
-  margin-bottom: 14px;
+.hero__container { position: relative; z-index: 2; padding: 0 18px; margin-bottom: 14px; }
+.center { width: 100%; max-width: 980px; display: grid; justify-items: center; text-align: center; gap: 16px; }
+
+.heroTips {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 6px;
 }
-.center {
-  width: 100%;
-  max-width: 980px;
-  display: grid;
-  justify-items: center;
-  text-align: center;
-  gap: 16px;
+.tipPill{
+  font-size: 11px;
+  color: rgba(255,255,255,0.74);
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.02);
+  padding: 7px 9px;
+  border-radius: 999px;
 }
 
 /* pill */
@@ -1266,16 +1402,7 @@ onBeforeUnmount(() => {
 }
 .pill i { font-size: 16px; }
 
-.toTop {
-  color: rgba(255, 255, 255, 0.78);
-  text-decoration: none;
-}
-.toTop:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-/* LOGO (seu bloco) */
+/* LOGO */
 .logo-wrap {
   position: relative;
   width: min(210px, 58vw);
@@ -1286,12 +1413,7 @@ onBeforeUnmount(() => {
   transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   transition: transform 180ms ease;
 }
-.logo {
-  width: 62%;
-  height: auto;
-  z-index: 2;
-  filter: drop-shadow(0 16px 44px rgba(0, 0, 0, 0.55));
-}
+.logo { width: 62%; height: auto; z-index: 2; filter: drop-shadow(0 16px 44px rgba(0, 0, 0, 0.55)); }
 .logo-ring {
   position: absolute;
   inset: 0;
@@ -1332,19 +1454,8 @@ onBeforeUnmount(() => {
   font-size: 12px;
   letter-spacing: 0.3px;
 }
-.title {
-  margin: 0;
-  font-size: clamp(24px, 3.6vw, 44px);
-  line-height: 1.08;
-  letter-spacing: -0.5px;
-}
-.subtitle {
-  margin: 0 auto;
-  max-width: 820px;
-  font-size: clamp(14px, 1.25vw, 18px);
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.72);
-}
+.title { margin: 0; font-size: clamp(24px, 3.6vw, 44px); line-height: 1.08; letter-spacing: -0.5px; }
+.subtitle { margin: 0 auto; max-width: 820px; font-size: clamp(14px, 1.25vw, 18px); line-height: 1.5; color: rgba(255, 255, 255, 0.72); }
 
 /* progress */
 .progressWrap {
@@ -1357,13 +1468,7 @@ onBeforeUnmount(() => {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
-.progressMeta {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.74);
-}
+.progressMeta { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; color: rgba(255, 255, 255, 0.74); }
 .progressBar {
   margin-top: 8px;
   height: 12px;
@@ -1387,7 +1492,6 @@ onBeforeUnmount(() => {
 .card {
   width: 100%;
   max-width: 980px;
-
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.03);
   border-radius: 22px;
@@ -1419,27 +1523,15 @@ onBeforeUnmount(() => {
   display: grid;
   gap: 10px;
 }
-.blockHead {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 10px;
-  align-items: start;
-}
+.blockHead { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; }
 .blockDot {
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
+  width: 10px; height: 10px; border-radius: 999px;
   background: rgba(255, 255, 255, 0.75);
   box-shadow: 0 0 24px rgba(255, 255, 255, 0.14);
   margin-top: 4px;
 }
 .blockTitle { font-weight: 900; }
-.blockSub {
-  grid-column: 2;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.62);
-  margin-top: 2px;
-}
+.blockSub { grid-column: 2; font-size: 12px; color: rgba(255, 255, 255, 0.62); margin-top: 2px; }
 
 .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .field { display: grid; gap: 6px; }
@@ -1455,11 +1547,7 @@ onBeforeUnmount(() => {
   background: rgba(255, 255, 255, 0.03);
   color: rgba(255, 255, 255, 0.70);
 }
-.opt {
-  border-color: rgba(255, 255, 255, 0.08);
-  background: rgba(0, 0, 0, 0.18);
-  color: rgba(255, 255, 255, 0.58);
-}
+.opt { border-color: rgba(255, 255, 255, 0.08); background: rgba(0, 0, 0, 0.18); color: rgba(255, 255, 255, 0.58); }
 
 .inp {
   border-radius: 14px;
@@ -1526,24 +1614,12 @@ onBeforeUnmount(() => {
 .radio input { accent-color: #fff; }
 
 .selectWrap { position: relative; }
-.select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  padding-right: 40px;
-}
-.che {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 0.75;
-  pointer-events: none;
-}
+.select { appearance: none; -webkit-appearance: none; -moz-appearance: none; padding-right: 40px; }
+.che { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); opacity: 0.75; pointer-events: none; }
 select option { background: #0b0c10; color: rgba(255, 255, 255, 0.92); }
 
 .reveal { display: grid; gap: 10px; max-height: 0; overflow: hidden; opacity: 0; transition: max-height 220ms ease, opacity 220ms ease; }
-.reveal.on { max-height: 220px; opacity: 1; }
+.reveal.on { max-height: 260px; opacity: 1; }
 
 .checkRow {
   display: grid;
@@ -1570,7 +1646,7 @@ select option { background: #0b0c10; color: rgba(255, 255, 255, 0.92); }
   cursor: pointer;
   color: rgba(255, 255, 255, 0.9);
   background: rgba(255, 255, 255, 0.04);
-  transition: background 160ms ease, transform 160ms ease;
+  transition: background 160ms ease, transform 160ms ease, opacity 160ms ease;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -1583,16 +1659,11 @@ select option { background: #0b0c10; color: rgba(255, 255, 255, 0.92); }
   font-weight: 900;
 }
 .btn.ghost { background: rgba(255, 255, 255, 0.02); }
+.btn.disabled { opacity: 0.7; pointer-events: none; }
 .arrow { font-weight: 900; }
 .hint { font-size: 12px; color: rgba(255, 255, 255, 0.62); }
 
-/* ✅ NOVO: grid local */
-.gridLoc{
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-}
+.gridLoc { width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 
 .snack {
   position: fixed;
@@ -1619,7 +1690,9 @@ select option { background: #0b0c10; color: rgba(255, 255, 255, 0.92); }
 .snack.on { opacity: 1; transform: translateY(0px) scale(1); }
 .snack i { font-size: 18px; }
 
-/* responsive */
+.toTop { margin-top: 18px; color: rgba(255, 255, 255, 0.78); text-decoration: none; cursor: pointer; }
+.toTop:hover { text-decoration: underline; text-underline-offset: 3px; }
+
 @media (max-width: 980px) {
   .grid { grid-template-columns: 1fr; }
   .gridLoc { grid-template-columns: 1fr; }
@@ -1628,7 +1701,6 @@ select option { background: #0b0c10; color: rgba(255, 255, 255, 0.92); }
   .snack { left: 16px; right: 16px; justify-content: center; }
 }
 
-/* reduced motion */
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
   .bg__cursor { display: none !important; }
