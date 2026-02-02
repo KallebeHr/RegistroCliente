@@ -67,7 +67,7 @@
             <a class="btn primary" :href="whatsLink" target="_blank" rel="noopener noreferrer">
               Falar no WhatsApp <span class="arrow">→</span>
             </a>
-            <a class="btn ghost" @click="goForm">Preencher Formulario.</a>
+            <a class="btn ghost" @click="goForm">Solicitar Exemplo.</a>
           </div>
         </div>
 
@@ -140,8 +140,8 @@ const year = new Date().getFullYear();
 const brandName = "Kallebe Max";
 const phone = "(86) 98163-2626";
 const email = "KalebeHeuler@gmail.com";
-const address = "Av. Exemplo, 123 • Centro";
-const city = "Pedro/PI";
+const address = "Virtual • Centro";
+const city = "*/PI";
 
 // WhatsApp + Maps
 const whatsNumber = "5586981632626"; // DDI+DDD+Número (somente dígitos)

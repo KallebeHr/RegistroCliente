@@ -39,7 +39,7 @@
 
           <div class="cta-row" ref="ctaRow">
             <button class="cta primary" ref="ctaPrimary" type="button" @click="goForm">
-              Solicitar avaliação do site
+              Solicitar Exemplo.
               <span class="arrow" aria-hidden="true">→</span>
               <span class="shine" aria-hidden="true"></span>
             </button>

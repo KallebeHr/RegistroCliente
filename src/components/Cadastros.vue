@@ -1,5 +1,9 @@
 <template>
-  <section class="intake" id="form-clientes" ref="root" aria-label="Formulário para novos clientes">
+  
+  <div>
+
+  <section class="intake" id="form-clientes" ref="root" aria-label="Formulário para novos clientes" >
+    
     <!-- BG -->
     <div class="bg" aria-hidden="true">
       <div class="bg__grid"></div>
@@ -786,8 +790,10 @@
       </div>
     </div>
 
-    <a class="toTop" @click="goToIndex" href="#inicio">Voltar para a página inicial</a>
+    <a class="toTop" @click="goToIndex" >Voltar para a página inicial</a>
   </section>
+  </div>
+
 </template>
 
 <script setup>
@@ -904,7 +910,25 @@ const f = reactive({
   obs: "",
   consent: false
 });
+const isLoaded = ref(false);
 
+onMounted(() => {
+  const markLoaded = () => {
+    setTimeout(() => (isLoaded.value = true), 3000);
+  };
+
+  if (document.readyState === 'complete') {
+    markLoaded();
+  } else {
+    const listener = () => {
+      if (document.readyState === 'complete') {
+        markLoaded();
+        document.removeEventListener('readystatechange', listener);
+      }
+    };
+    document.addEventListener('readystatechange', listener);
+  }
+});
 /* errors */
 const errors = reactive({
   tipo: "",

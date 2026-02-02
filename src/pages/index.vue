@@ -1,5 +1,7 @@
 <template>
   <Home />
+  <CTA />
+  <comoFunciona />
   <Ajuda />
   <Footer />
 </template>
