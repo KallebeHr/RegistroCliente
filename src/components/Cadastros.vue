@@ -1,8 +1,50 @@
 <template>
   
   <div>
+ <!-- BLOQUEIO MOBILE/TABLET -->
+    <section v-if="!isDesktop" class="desktop-only" aria-label="Aviso: disponível apenas no desktop">
+      <div class="desktop-only__bg" aria-hidden="true">
+        <div class="desktop-only__grid"></div>
+        <div class="desktop-only__glow"></div>
+        <div class="desktop-only__noise"></div>
+      </div>
 
-  <section class="intake" id="form-clientes" ref="root" aria-label="Formulário para novos clientes" >
+      <div class="desktop-only__card" role="status" aria-live="polite">
+        <div class="desktop-only__icon" aria-hidden="true">
+          <i class="mdi mdi-monitor" style="font-size: 28px;"></i>
+        </div>
+
+        <h1 class="desktop-only__title">Somente no desktop</h1>
+        <p class="desktop-only__text">
+          Este formulário foi feito para ser preenchido em computador para garantir uma melhor experiência.
+        </p>
+
+        <div class="desktop-only__meta">
+          <span class="desktop-only__pill">
+            <i class="mdi mdi-cellphone-off" aria-hidden="true"></i>
+            Mobile/Tablet bloqueado
+          </span>
+          <span class="desktop-only__pill">
+            <i class="mdi mdi-shield-check-outline" aria-hidden="true"></i>
+            Mais preciso e confortável
+          </span>
+        </div>
+
+        <p class="desktop-only__hint">
+          Abra este link em um computador (Chrome/Edge) e preencha com calma.
+        </p>
+
+        <button class="desktop-only__btn" type="button" @click="copyCurrentLink">
+          Copiar link
+          <i class="mdi mdi-content-copy" aria-hidden="true"></i>
+        </button>
+
+        <p v-if="linkCopied" class="desktop-only__copied">Link copiado ✅</p>
+      </div>
+    </section>
+
+    <!-- FORMULÁRIO (DESKTOP) -->
+  <section v-else class="intake" id="form-clientes" ref="root" aria-label="Formulário para novos clientes" >
     
     <!-- BG -->
     <div class="bg" aria-hidden="true">
@@ -1319,13 +1361,63 @@ function initPointerGlow() {
     root.value?.removeEventListener("mouseleave", onLeave);
   };
 }
+const isDesktop = ref(typeof window !== "undefined" ? computeDesktop() : true); 
+let mmPointer = null;
+let mmHover = null;
 
+function computeDesktop() {
+  if (typeof window === "undefined") return true;
+  return window.innerWidth >= 1024;
+}
+
+
+function updateIsDesktop() {
+  isDesktop.value = computeDesktop();
+}
+
+onMounted(() => {
+  updateIsDesktop();
+
+  const onResize = () => updateIsDesktop();
+  window.addEventListener("resize", onResize, { passive: true });
+
+  mmPointer = window.matchMedia?.("(pointer: fine)") || null;
+  mmHover = window.matchMedia?.("(hover: hover)") || null;
+
+  mmPointer?.addEventListener?.("change", updateIsDesktop);
+  mmHover?.addEventListener?.("change", updateIsDesktop);
+
+  onBeforeUnmount(() => {
+    window.removeEventListener("resize", onResize);
+    mmPointer?.removeEventListener?.("change", updateIsDesktop);
+    mmHover?.removeEventListener?.("change", updateIsDesktop);
+  });
+});
+
+
+/* Copiar link */
+const linkCopied = ref(false);
+let linkTimer = null;
+
+async function copyCurrentLink() {
+  try {
+    await navigator.clipboard.writeText(window.location.href);
+    linkCopied.value = true;
+    clearTimeout(linkTimer);
+    linkTimer = setTimeout(() => (linkCopied.value = false), 1500);
+  } catch {
+    // fallback simples
+    linkCopied.value = false;
+  }
+}
 onMounted(() => initPointerGlow());
 onBeforeUnmount(() => {
   cleanupMove?.();
   cleanupMove = null;
   clearTimeout(snackTimer);
 });
+
+
 </script>
 
 <style scoped>
@@ -1410,6 +1502,141 @@ onBeforeUnmount(() => {
   background: rgba(255,255,255,0.02);
   padding: 7px 9px;
   border-radius: 999px;
+}
+/* =====================
+   DESKTOP ONLY (BLOCK)
+   ===================== */
+.desktop-only {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  padding: 70px 18px;
+  overflow: hidden;
+  background: #07080b;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.desktop-only__bg { position: absolute; inset: 0; pointer-events: none; }
+.desktop-only__grid {
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 34px 34px;
+  opacity: 0.10;
+  transform: rotate(8deg);
+}
+.desktop-only__glow {
+  position: absolute;
+  left: 50%;
+  top: 18%;
+  width: 820px;
+  height: 820px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  filter: blur(80px);
+  opacity: 0.35;
+  background: radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.12), transparent 60%);
+}
+.desktop-only__noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+}
+
+.desktop-only__card {
+  position: relative;
+  z-index: 2;
+  width: min(560px, 100%);
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.03);
+  box-shadow: 0 22px 70px rgba(0,0,0,0.45);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 18px;
+  display: grid;
+  gap: 10px;
+  text-align: center;
+}
+
+.desktop-only__icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 2px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+}
+
+.desktop-only__title {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: -0.3px;
+  font-weight: 900;
+}
+
+.desktop-only__text {
+  margin: 0;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.5;
+  font-size: 13px;
+}
+
+.desktop-only__meta {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.desktop-only__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(0,0,0,0.18);
+  color: rgba(255,255,255,0.74);
+  font-size: 11px;
+}
+
+.desktop-only__hint {
+  margin: 6px 0 0;
+  color: rgba(255,255,255,0.62);
+  font-size: 12px;
+}
+
+.desktop-only__btn {
+  margin: 10px auto 0;
+  width: 100%;
+  max-width: 280px;
+  border-radius: 16px;
+  padding: 10px 12px;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.9);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  transition: transform 160ms ease, background 160ms ease;
+}
+.desktop-only__btn:hover { background: rgba(255,255,255,0.07); transform: translateY(-1px); }
+
+.desktop-only__copied {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: rgba(180, 255, 180, 0.95);
 }
 
 /* pill */

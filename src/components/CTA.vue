@@ -684,6 +684,12 @@ onBeforeUnmount(() => {
   border:1px solid rgba(255,255,255,.10);
   background:rgba(255,255,255,.03);
 }
+.ico.danger{
+  color: #ff0000;
+}
+.ico.good{
+  color: #00ff1a;
+}
 .ico i{ font-size:18px; }
 .txt{ font-size:13px; line-height:1.55; color:rgba(255,255,255,.78); }
 .txt strong{ color:rgba(255,255,255,.92); font-weight:900; }
