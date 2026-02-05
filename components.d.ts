@@ -16,6 +16,7 @@ declare module 'vue' {
     Cadastros: typeof import('./src/components/Cadastros.vue')['default']
     ComoFunciona: typeof import('./src/components/comoFunciona.vue')['default']
     CTA: typeof import('./src/components/CTA.vue')['default']
+    Exemplos: typeof import('./src/components/Exemplos.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     Home: typeof import('./src/components/Home.vue')['default']
