@@ -4,7 +4,9 @@
   <Exemplos />
   <comoFunciona />
   <Ajuda />
+  <WhatsAppButton />
   <Footer />
+
 </template>
 
 <script setup>

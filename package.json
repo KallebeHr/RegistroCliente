@@ -14,6 +14,7 @@
     "@fontsource/roboto": "5.2.7",
     "@mdi/font": "7.4.47",
     "@motionone/dom": "^10.18.0",
+    "@vue-a11y/vlibras": "^1.0.6",
     "firebase": "^12.8.0",
     "gsap": "^3.14.2",
     "leaflet": "^1.9.4",

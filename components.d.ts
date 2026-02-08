@@ -25,5 +25,6 @@ declare module 'vue' {
     RespostasAtivas: typeof import('./src/components/RespostasAtivas.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    WhatsAppButton: typeof import('./src/components/WhatsAppButton.vue')['default']
   }
 }

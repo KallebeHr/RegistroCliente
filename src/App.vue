@@ -1,9 +1,12 @@
 <template>
   <v-app>
+    <VLibras position="right" />
+
     <div v-if="!isLoaded">
       <preloader />
     </div>
     <div v-else>
+      
       <router-view />
     </div>
   </v-app>
