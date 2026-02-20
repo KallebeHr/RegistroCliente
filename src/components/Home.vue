@@ -1,6 +1,6 @@
 <template>
   <section class="hero" id="inicio" ref="root">
-    <!-- background layers -->
+    <!-- Camadas de background (idealmente depois vão para um layout global) -->
     <div class="bg" aria-hidden="true">
       <div class="bg__grid"></div>
       <div class="bg__glow bg__glow--a"></div>
@@ -15,12 +15,24 @@
 
     <div class="hero__container">
       <div class="center">
-        <div class="logo-wrap" ref="logoWrap" @mousemove="onTilt" @mouseleave="resetTilt">
+        <!-- Logo / Tilt -->
+        <div
+          class="logo-wrap"
+          ref="logoWrap"
+          @mousemove="onTilt"
+          @mouseleave="resetTilt"
+        >
           <div class="logo-ring" aria-hidden="true"></div>
-          <img class="logo" src="/Logo/LogoPNG.png" alt="Logo do escritório" ref="logoEl" />
+          <img
+            class="logo"
+            src="/Logo/LogoPNG.png"
+            alt="Logo do escritório"
+            ref="logoEl"
+          />
           <div class="logo-shine" aria-hidden="true"></div>
         </div>
 
+        <!-- Copy principal -->
         <div class="copy" ref="copy">
           <p class="kicker" ref="kicker">
             MaxSistemas • Presença Digital Jurídica • Acessibilidade & Performance
@@ -38,7 +50,12 @@
           </p>
 
           <div class="cta-row" ref="ctaRow">
-            <button class="cta primary" ref="ctaPrimary" type="button" @click="goForm">
+            <button
+              class="cta primary"
+              ref="ctaPrimary"
+              type="button"
+              @click="goForm"
+            >
               Solicitar Exemplo.
               <span class="arrow" aria-hidden="true">→</span>
               <span class="shine" aria-hidden="true"></span>
@@ -64,24 +81,46 @@
                 role="menu"
                 @keydown.esc="closeDrop"
               >
-                <button class="panel__item" role="menuitem" @click="pickFAQ(0)">
+                <button
+                  class="panel__item"
+                  role="menuitem"
+                  @click="pickFAQ(0)"
+                >
                   Em quanto tempo fica pronto?
-                  <span class="muted">• geralmente 24–72h, conforme conteúdo e identidade visual</span>
+                  <span class="muted">
+                    • geralmente 24–72h, conforme conteúdo e identidade visual
+                  </span>
                 </button>
 
-                <button class="panel__item" role="menuitem" @click="pickFAQ(1)">
+                <button
+                  class="panel__item"
+                  role="menuitem"
+                  @click="pickFAQ(1)"
+                >
                   Tem botão direto para WhatsApp?
-                  <span class="muted">• sim, com mensagem pré-configurada e rastreio</span>
+                  <span class="muted">
+                    • sim, com mensagem pré-configurada e rastreio
+                  </span>
                 </button>
 
-                <button class="panel__item" role="menuitem" @click="pickFAQ(2)">
+                <button
+                  class="panel__item"
+                  role="menuitem"
+                  @click="pickFAQ(2)"
+                >
                   Preciso ter domínio?
-                  <span class="muted">• se não tiver, você pode usar subdomínio e migrar depois</span>
+                  <span class="muted">
+                    • se não tiver, você pode usar subdomínio e migrar depois
+                  </span>
                 </button>
 
                 <div class="panel__divider"></div>
 
-                <button class="panel__cta" role="menuitem" @click="scrollTo('#contato')">
+                <button
+                  class="panel__cta"
+                  role="menuitem"
+                  @click="scrollTo('#contato')"
+                >
                   Quer um modelo para seu escritório?
                   <span class="spark" aria-hidden="true"></span>
                 </button>
@@ -101,7 +140,7 @@
           </p>
         </div>
 
-        <!-- scroll hint -->
+        <!-- Scroll hint -->
         <div class="scroll-hint" ref="scrollHint" aria-hidden="true">
           <span class="scroll-hint__line"></span>
           <span class="scroll-hint__text">role</span>
@@ -114,18 +153,11 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref, nextTick } from "vue";
 import { useRouter } from "vue-router";
-const router = useRouter();
-
-// GSAP
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-
-// Motion One
-import { animate } from "@motionone/dom";
-
-// Floating UI
 import { computePosition, offset, flip, shift, autoUpdate } from "@floating-ui/dom";
 
+const router = useRouter();
 gsap.registerPlugin(ScrollTrigger);
 
 // ===== Refs =====
@@ -149,9 +181,18 @@ const panelRef = ref(null);
 const dropOpen = ref(false);
 let cleanupFloating = null;
 
-const prefersReduced =
-  window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+// cleanup helpers
+let ctx;
+let cleanupMagnetic = () => {};
+let cleanupGlow = () => {};
+let cleanupButtonHovers = () => {};
 
+// motion preference
+const prefersReduced =
+  typeof window !== "undefined" &&
+  (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false);
+
+// ===== Navegação =====
 function goForm() {
   router.push("/Formulario");
 }
@@ -165,18 +206,43 @@ function scrollTo(selector) {
 
 // FAQs
 const faqs = [
-  { q: "Em quanto tempo fica pronto?", a: "Geralmente 24–72h, conforme conteúdo, revisão e identidade visual." },
-  { q: "Tem botão direto para WhatsApp?", a: "Sim. Botões com mensagem pronta e envio direto configurado." },
-  { q: "Preciso ter domínio?", a: "Não. Você pode iniciar com subdomínio e migrar quando quiser." }
+  {
+    q: "Em quanto tempo fica pronto?",
+    a: "Geralmente 24–72h, conforme conteúdo, revisão e identidade visual."
+  },
+  {
+    q: "Tem botão direto para WhatsApp?",
+    a: "Sim. Botões com mensagem pronta e envio direto configurado."
+  },
+  {
+    q: "Preciso ter domínio?",
+    a: "Não. Você pode iniciar com subdomínio e migrar quando quiser."
+  }
 ];
 
 function pickFAQ(idx) {
   closeDrop();
-  animate(title.value, { transform: ["scale(1)", "scale(1.01)", "scale(1)"] }, { duration: 0.25 });
-  console.log("FAQ:", faqs[idx]);
+
+  // mini “pulse” no título usando GSAP (substitui Motion One)
+  if (title.value && !prefersReduced) {
+    gsap.fromTo(
+      title.value,
+      { scale: 1 },
+      {
+        scale: 1.01,
+        duration: 0.12,
+        ease: "power2.out",
+        yoyo: true,
+        repeat: 1
+      }
+    );
+  }
+
+  // Se quiser, futuramente, use isso para abrir um modal ou rolar para seção de dúvidas.
+  // console.log("FAQ escolhida:", faqs[idx]);
 }
 
-// Dropdown
+// ===== Dropdown =====
 function toggleDrop() {
   dropOpen.value = !dropOpen.value;
   nextTick(() => {
@@ -208,12 +274,34 @@ function positionPanel() {
 }
 
 function animateOpenPanel() {
-  if (!panelRef.value) return;
-  animate(
+  if (!panelRef.value || prefersReduced) return;
+
+  gsap.fromTo(
     panelRef.value,
-    { opacity: [0, 1], transform: ["translateY(-8px) scale(0.985)", "translateY(0px) scale(1)"] },
-    { duration: 0.16 }
+    {
+      opacity: 0,
+      y: -8,
+      scale: 0.985
+    },
+    {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      duration: 0.16,
+      ease: "power2.out"
+    }
   );
+}
+
+// ===== Click fora do dropdown =====
+function onDocClick(ev) {
+  if (!dropOpen.value) return;
+  const t = ev.target;
+  if (!t) return;
+
+  const inButton = dropRef.value?.contains(t);
+  const inPanel = panelRef.value?.contains(t);
+  if (!inButton && !inPanel) closeDrop();
 }
 
 // ===== Tilt na logo =====
@@ -240,17 +328,6 @@ function resetTilt() {
   el.style.setProperty("--ry", `0deg`);
 }
 
-// ===== Click fora do dropdown =====
-function onDocClick(ev) {
-  if (!dropOpen.value) return;
-  const t = ev.target;
-  if (!t) return;
-
-  const inButton = dropRef.value?.contains(t);
-  const inPanel = panelRef.value?.contains(t);
-  if (!inButton && !inPanel) closeDrop();
-}
-
 // ===== Magnetic hover =====
 function magnetic(el, strength = 16) {
   if (!el || prefersReduced) return () => {};
@@ -259,11 +336,21 @@ function magnetic(el, strength = 16) {
     const r = el.getBoundingClientRect();
     const x = e.clientX - (r.left + r.width / 2);
     const y = e.clientY - (r.top + r.height / 2);
-    gsap.to(el, { x: x / strength, y: y / strength, duration: 0.25, ease: "power3.out" });
+    gsap.to(el, {
+      x: x / strength,
+      y: y / strength,
+      duration: 0.25,
+      ease: "power3.out"
+    });
   };
 
   const onLeave = () => {
-    gsap.to(el, { x: 0, y: 0, duration: 0.35, ease: "power3.out" });
+    gsap.to(el, {
+      x: 0,
+      y: 0,
+      duration: 0.35,
+      ease: "power3.out"
+    });
   };
 
   el.addEventListener("mousemove", onMove);
@@ -275,20 +362,55 @@ function magnetic(el, strength = 16) {
   };
 }
 
+// ===== Hovers suaves nos botões (GSAP) =====
+function setupButtonHovers() {
+  if (prefersReduced) return () => {};
+
+  const btns = [ctaPrimary.value, dropRef.value].filter(Boolean);
+
+  btns.forEach((btn) => {
+    const onEnter = () => {
+      gsap.to(btn, {
+        y: -2,
+        duration: 0.14,
+        ease: "power2.out"
+      });
+    };
+
+    const onLeave = () => {
+      gsap.to(btn, {
+        y: 0,
+        duration: 0.14,
+        ease: "power2.out"
+      });
+    };
+
+    btn.addEventListener("mouseenter", onEnter);
+    btn.addEventListener("mouseleave", onLeave);
+
+    btn._hoverCleanup = () => {
+      btn.removeEventListener("mouseenter", onEnter);
+      btn.removeEventListener("mouseleave", onLeave);
+    };
+  });
+
+  return () => {
+    btns.forEach((btn) => btn?._hoverCleanup && btn._hoverCleanup());
+  };
+}
+
 // ===== Split words =====
 function splitWords(el) {
   if (!el) return [];
   const text = el.textContent.trim();
   const words = text.split(" ");
 
-  el.innerHTML = words
-    .map((w) => `<span class="w">${w}</span>`)
-    .join(" ");
+  el.innerHTML = words.map((w) => `<span class="w">${w}</span>`).join(" ");
 
   return Array.from(el.querySelectorAll(".w"));
 }
 
-// ===== Particles =====
+// ===== Partículas =====
 function setupParticles() {
   const wrap = root.value?.querySelector(".bg__particles");
   if (!wrap) return;
@@ -311,7 +433,7 @@ function setupParticles() {
       gsap.to(d, {
         y: `+=${gsap.utils.random(-18, 18)}`,
         x: `+=${gsap.utils.random(-18, 18)}`,
-        opacity: gsap.utils.random(0.05, 0.20),
+        opacity: gsap.utils.random(0.05, 0.2),
         duration: gsap.utils.random(3.2, 5.8),
         ease: "sine.inOut",
         yoyo: true,
@@ -321,10 +443,14 @@ function setupParticles() {
   });
 }
 
-// ===== Cursor glow =====
+// ===== Cursor glow (com fade suave) =====
 function setupCursorGlow() {
   const glow = root.value?.querySelector(".bg__cursor");
   if (!glow || prefersReduced) return () => {};
+
+  const setOpacity = (value) => {
+    glow.style.setProperty("--cursorOpacity", value);
+  };
 
   const move = (e) => {
     const r = root.value.getBoundingClientRect();
@@ -332,31 +458,42 @@ function setupCursorGlow() {
     const y = e.clientY - r.top;
     glow.style.setProperty("--cx", `${x}px`);
     glow.style.setProperty("--cy", `${y}px`);
+    setOpacity(0.5);
   };
 
+  const enter = () => setOpacity(0.5);
+  const leave = () => setOpacity(0);
+
   root.value.addEventListener("mousemove", move);
-  return () => root.value?.removeEventListener("mousemove", move);
+  root.value.addEventListener("mouseenter", enter);
+  root.value.addEventListener("mouseleave", leave);
+
+  return () => {
+    root.value?.removeEventListener("mousemove", move);
+    root.value?.removeEventListener("mouseenter", enter);
+    root.value?.removeEventListener("mouseleave", leave);
+  };
 }
 
-// ===== GSAP =====
-let ctx;
-let cleanupMagnetic = () => {};
-let cleanupGlow = () => {};
-
+// ===== Lifecycle & GSAP timeline =====
 onMounted(() => {
   document.addEventListener("click", onDocClick);
 
-  // Preparar split words
   const titleWords = splitWords(title.value);
   const subtitleWords = splitWords(subtitle.value);
 
   if (!prefersReduced) {
-    gsap.set([...titleWords, ...subtitleWords], { opacity: 0, y: 10, filter: "blur(6px)" });
+    gsap.set([...titleWords, ...subtitleWords], {
+      opacity: 0,
+      y: 10,
+      filter: "blur(6px)"
+    });
   }
 
   setupParticles();
   cleanupGlow = setupCursorGlow();
   cleanupMagnetic = magnetic(ctaPrimary.value, 16);
+  cleanupButtonHovers = setupButtonHovers();
 
   ctx = gsap.context(() => {
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
@@ -373,7 +510,12 @@ onMounted(() => {
         "-=0.35"
       )
       .fromTo(title.value, { opacity: 1 }, { opacity: 1, duration: 0.01 })
-      .fromTo(subtitle.value, { opacity: 1 }, { opacity: 1, duration: 0.01 }, "-=0.2")
+      .fromTo(
+        subtitle.value,
+        { opacity: 1 },
+        { opacity: 1, duration: 0.01 },
+        "-=0.2"
+      )
       .fromTo(
         ctaRow.value,
         { opacity: 0, y: 10 },
@@ -391,18 +533,31 @@ onMounted(() => {
         { opacity: 0 },
         { opacity: 1, duration: 0.35 },
         "-=0.1"
-      )
-      // REVEAL por palavras
-      .to(
+      );
+
+    if (!prefersReduced) {
+      tl.to(
         titleWords,
-        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, stagger: 0.03 },
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.5,
+          stagger: 0.03
+        },
         "-=0.85"
-      )
-      .to(
+      ).to(
         subtitleWords,
-        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4, stagger: 0.015 },
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.4,
+          stagger: 0.015
+        },
         "-=0.65"
       );
+    }
 
     // breathing logo
     if (!prefersReduced) {
@@ -419,11 +574,26 @@ onMounted(() => {
     if (!prefersReduced) {
       const ring = root.value?.querySelector(".logo-ring");
       const shine = root.value?.querySelector(".logo-shine");
-      if (ring) gsap.to(ring, { rotate: 360, duration: 22, ease: "none", repeat: -1 });
-      if (shine) gsap.to(shine, { opacity: 0.18, duration: 2.2, ease: "sine.inOut", yoyo: true, repeat: -1 });
+      if (ring) {
+        gsap.to(ring, {
+          rotate: 360,
+          duration: 22,
+          ease: "none",
+          repeat: -1
+        });
+      }
+      if (shine) {
+        gsap.to(shine, {
+          opacity: 0.18,
+          duration: 2.2,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: -1
+        });
+      }
     }
 
-    // Parallax background com var
+    // Parallax background
     ScrollTrigger.create({
       trigger: root.value,
       start: "top top",
@@ -434,11 +604,16 @@ onMounted(() => {
       }
     });
 
-    // Blur/scale no bg ao scroll
+    // Blur/scale bg ao scroll
     const bg = root.value?.querySelector(".bg");
     if (bg) {
       gsap.to(bg, {
-        scrollTrigger: { trigger: root.value, start: "top top", end: "bottom top", scrub: 1 },
+        scrollTrigger: {
+          trigger: root.value,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1
+        },
         filter: "blur(6px)",
         scale: 1.04,
         ease: "none"
@@ -447,27 +622,19 @@ onMounted(() => {
 
     // saída elegante ao scroll
     gsap.to(copy.value, {
-      scrollTrigger: { trigger: root.value, start: "top top", end: "bottom top", scrub: 1 },
+      scrollTrigger: {
+        trigger: root.value,
+        start: "top top",
+        end: "bottom top",
+        scrub: 1
+      },
       y: 28,
-      opacity: 0.40,
+      opacity: 0.4,
       scale: 0.985,
       transformOrigin: "center",
       ease: "none"
     });
   }, root.value);
-
-  // Motion One hover suave nos botões
-  if (!prefersReduced) {
-    const btns = [ctaPrimary.value, dropRef.value].filter(Boolean);
-    btns.forEach((b) => {
-      b.addEventListener("mouseenter", () => {
-        animate(b, { transform: ["translateY(0px)", "translateY(-2px)"] }, { duration: 0.14 });
-      });
-      b.addEventListener("mouseleave", () => {
-        animate(b, { transform: ["translateY(-2px)", "translateY(0px)"] }, { duration: 0.14 });
-      });
-    });
-  }
 });
 
 onBeforeUnmount(() => {
@@ -475,6 +642,7 @@ onBeforeUnmount(() => {
   cleanupFloating?.();
   cleanupMagnetic?.();
   cleanupGlow?.();
+  cleanupButtonHovers?.();
   ctx?.revert();
 });
 </script>
@@ -487,8 +655,11 @@ onBeforeUnmount(() => {
   display: grid;
   place-items: center;
   overflow: hidden;
+  /* Deixa o fundo preparado para virar global depois:
+     se você tiver um layout com o mesmo gradiente, pode trocar por background: transparent;
+  */
   background: radial-gradient(1200px 700px at 50% 12%, #0b0f18, #07080b 55%, #06070a);
-  color: rgba(255,255,255,0.92);
+  color: rgba(255, 255, 255, 0.92);
   --bgShift: 0px;
 }
 
@@ -512,18 +683,30 @@ onBeforeUnmount(() => {
   pointer-events: none;
   transform: translateY(calc(var(--bgShift) * -1));
   will-change: transform, filter;
+  /* Fade vertical suave p/ próxima seção não parecer "cortada" */
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 70%,
+    rgba(0, 0, 0, 0) 100%
+  );
 }
 
 .bg__grid {
   position: absolute;
   inset: -35%;
   background:
-    linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 38px 38px;
   opacity: 0.14;
   transform: rotate(10deg);
-  mask-image: radial-gradient(circle at 50% 35%, rgba(0,0,0,1), rgba(0,0,0,0.1) 58%, transparent 75%);
+  mask-image: radial-gradient(
+    circle at 50% 35%,
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 0.1) 58%,
+    transparent 75%
+  );
 }
 
 .bg__glow {
@@ -539,7 +722,11 @@ onBeforeUnmount(() => {
   left: 50%;
   top: 10%;
   transform: translateX(-68%);
-  background: radial-gradient(circle at 30% 35%, rgba(255,255,255,0.14), transparent 62%);
+  background: radial-gradient(
+    circle at 30% 35%,
+    rgba(255, 255, 255, 0.14),
+    transparent 62%
+  );
 }
 
 .bg__glow--b {
@@ -548,7 +735,11 @@ onBeforeUnmount(() => {
   left: 50%;
   top: 46%;
   transform: translateX(-30%);
-  background: radial-gradient(circle at 55% 45%, rgba(255,255,255,0.11), transparent 64%);
+  background: radial-gradient(
+    circle at 55% 45%,
+    rgba(255, 255, 255, 0.11),
+    transparent 64%
+  );
 }
 
 .bg__noise {
@@ -559,7 +750,7 @@ onBeforeUnmount(() => {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
 }
 
-/* Particles */
+/* Partículas */
 .bg__particles {
   position: absolute;
   inset: 0;
@@ -569,19 +760,19 @@ onBeforeUnmount(() => {
 .bg__particles .p {
   position: absolute;
   border-radius: 999px;
-  background: rgba(255,255,255,0.86);
-  box-shadow: 0 0 18px rgba(255,255,255,0.10);
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.1);
 }
 
 /* Cursor glow */
 .bg__cursor {
   position: absolute;
   inset: 0;
-  opacity: 0.50;
+  opacity: var(--cursorOpacity, 0); /* começa invisível */
   background:
     radial-gradient(
       320px 320px at var(--cx, 50%) var(--cy, 35%),
-      rgba(255,255,255,0.09),
+      rgba(255, 255, 255, 0.09),
       transparent 62%
     );
   transition: opacity 180ms ease;
@@ -591,7 +782,7 @@ onBeforeUnmount(() => {
 .logo-wrap {
   position: relative;
   width: min(210px, 58vw);
-  aspect-ratio: 1/1;
+  aspect-ratio: 1 / 1;
   display: grid;
   place-items: center;
   transform-style: preserve-3d;
@@ -603,7 +794,7 @@ onBeforeUnmount(() => {
   width: 62%;
   height: auto;
   z-index: 2;
-  filter: drop-shadow(0 16px 44px rgba(0,0,0,0.55));
+  filter: drop-shadow(0 16px 44px rgba(0, 0, 0, 0.55));
 }
 
 .logo-ring {
@@ -611,12 +802,16 @@ onBeforeUnmount(() => {
   inset: 0;
   border-radius: 26px;
   background:
-    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.16), transparent 62%),
-    linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03));
-  border: 1px solid rgba(255,255,255,0.10);
+    radial-gradient(
+      circle at 30% 30%,
+      rgba(255, 255, 255, 0.16),
+      transparent 62%
+    ),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
+  border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow:
-    0 26px 86px rgba(0,0,0,0.55),
-    inset 0 0 0 1px rgba(255,255,255,0.05);
+    0 26px 86px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
   overflow: hidden;
 }
 
@@ -624,7 +819,12 @@ onBeforeUnmount(() => {
   content: "";
   position: absolute;
   inset: -42%;
-  background: conic-gradient(from 180deg, transparent, rgba(255,255,255,0.20), transparent);
+  background: conic-gradient(
+    from 180deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
   animation: spin 6.2s linear infinite;
   opacity: 0.55;
 }
@@ -633,7 +833,11 @@ onBeforeUnmount(() => {
   position: absolute;
   inset: 9%;
   border-radius: 20px;
-  background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.12), transparent 58%);
+  background: radial-gradient(
+    circle at 30% 25%,
+    rgba(255, 255, 255, 0.12),
+    transparent 58%
+  );
   z-index: 1;
 }
 
@@ -651,9 +855,9 @@ onBeforeUnmount(() => {
   align-items: center;
   padding: 8px 12px;
   border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.035);
-  color: rgba(255,255,255,0.82);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.035);
+  color: rgba(255, 255, 255, 0.82);
   font-size: 12px;
   letter-spacing: 0.35px;
 }
@@ -666,11 +870,15 @@ onBeforeUnmount(() => {
 }
 
 .title__accent {
-  background: linear-gradient(90deg, rgba(255,255,255,0.98), rgba(255,255,255,0.62));
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.98),
+    rgba(255, 255, 255, 0.62)
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 10px 34px rgba(0,0,0,0.55);
+  text-shadow: 0 10px 34px rgba(0, 0, 0, 0.55);
 }
 
 .subtitle {
@@ -678,7 +886,7 @@ onBeforeUnmount(() => {
   max-width: 760px;
   font-size: clamp(14px, 1.35vw, 18px);
   line-height: 1.55;
-  color: rgba(255,255,255,0.72);
+  color: rgba(255, 255, 255, 0.72);
 }
 
 /* Split words */
@@ -701,23 +909,30 @@ onBeforeUnmount(() => {
 
 .cta {
   position: relative;
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 16px;
   padding: 12px 14px;
   cursor: pointer;
-  color: rgba(255,255,255,0.90);
-  background: rgba(255,255,255,0.04);
-  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.04);
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
   overflow: hidden;
 }
 
 .cta.primary {
-  background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(255,255,255,0.72));
-  color: rgba(8,10,14,0.96);
-  border-color: rgba(255,255,255,0.18);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.92),
+    rgba(255, 255, 255, 0.72)
+  );
+  color: rgba(8, 10, 14, 0.96);
+  border-color: rgba(255, 255, 255, 0.18);
   font-weight: 900;
   letter-spacing: 0.2px;
-  box-shadow: 0 18px 60px rgba(0,0,0,0.45);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.45);
 }
 
 .cta.primary::before {
@@ -725,17 +940,21 @@ onBeforeUnmount(() => {
   position: absolute;
   inset: -2px;
   border-radius: 18px;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.26), transparent 58%);
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.26),
+    transparent 58%
+  );
   opacity: 0.35;
   pointer-events: none;
 }
 
 .cta.primary:hover {
-  border-color: rgba(255,255,255,0.26);
+  border-color: rgba(255, 255, 255, 0.26);
 }
 
 .cta.secondary:hover {
-  background: rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .arrow {
@@ -746,9 +965,14 @@ onBeforeUnmount(() => {
 .shine {
   position: absolute;
   inset: -55%;
-  background: conic-gradient(from 180deg, transparent, rgba(255,255,255,0.26), transparent);
+  background: conic-gradient(
+    from 180deg,
+    transparent,
+    rgba(255, 255, 255, 0.26),
+    transparent
+  );
   animation: spin 6.4s linear infinite;
-  opacity: 0.50;
+  opacity: 0.5;
 }
 
 /* dropdown */
@@ -761,8 +985,8 @@ onBeforeUnmount(() => {
   width: 10px;
   height: 10px;
   margin-left: 8px;
-  border-right: 2px solid rgba(255,255,255,0.70);
-  border-bottom: 2px solid rgba(255,255,255,0.70);
+  border-right: 2px solid rgba(255, 255, 255, 0.7);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.7);
   transform: rotate(45deg) translateY(-1px);
 }
 
@@ -772,8 +996,8 @@ onBeforeUnmount(() => {
   padding: 10px;
   border-radius: 18px;
   background: rgba(10, 12, 16, 0.94);
-  border: 1px solid rgba(255,255,255,0.12);
-  box-shadow: 0 22px 70px rgba(0,0,0,0.62);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.62);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   transform-origin: top left;
@@ -785,26 +1009,26 @@ onBeforeUnmount(() => {
   text-align: left;
   border: 0;
   background: transparent;
-  color: rgba(255,255,255,0.90);
+  color: rgba(255, 255, 255, 0.9);
   padding: 12px 12px;
   border-radius: 14px;
   cursor: pointer;
 }
 
 .panel__item:hover {
-  background: rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .muted {
   display: block;
   margin-top: 4px;
   font-size: 11px;
-  color: rgba(255,255,255,0.62);
+  color: rgba(255, 255, 255, 0.62);
 }
 
 .panel__divider {
   height: 1px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
   margin: 10px 6px;
 }
 
@@ -814,8 +1038,12 @@ onBeforeUnmount(() => {
   cursor: pointer;
   padding: 12px 12px;
   border-radius: 16px;
-  color: rgba(8,10,14,0.96);
-  background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(255,255,255,0.74));
+  color: rgba(8, 10, 14, 0.96);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.92),
+    rgba(255, 255, 255, 0.74)
+  );
   font-weight: 900;
   position: relative;
   overflow: hidden;
@@ -824,9 +1052,14 @@ onBeforeUnmount(() => {
 .panel__cta .spark {
   position: absolute;
   inset: -45%;
-  background: conic-gradient(from 180deg, transparent, rgba(255,255,255,0.30), transparent);
-  animation: spin 6.0s linear infinite;
-  opacity: 0.50;
+  background: conic-gradient(
+    from 180deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: spin 6s linear infinite;
+  opacity: 0.5;
 }
 
 /* trust */
@@ -842,9 +1075,9 @@ onBeforeUnmount(() => {
   font-size: 12px;
   padding: 8px 10px;
   border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.03);
-  color: rgba(255,255,255,0.78);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.78);
 }
 
 .disclaimer {
@@ -852,7 +1085,7 @@ onBeforeUnmount(() => {
   max-width: 820px;
   font-size: 11px;
   line-height: 1.45;
-  color: rgba(255,255,255,0.52);
+  color: rgba(255, 255, 255, 0.52);
 }
 
 /* scroll hint */
@@ -868,7 +1101,7 @@ onBeforeUnmount(() => {
   width: 2px;
   height: 34px;
   border-radius: 999px;
-  background: rgba(255,255,255,0.32);
+  background: rgba(255, 255, 255, 0.32);
   position: relative;
   overflow: hidden;
 }
@@ -880,35 +1113,64 @@ onBeforeUnmount(() => {
   top: -50%;
   width: 100%;
   height: 60%;
-  background: rgba(255,255,255,0.80);
+  background: rgba(255, 255, 255, 0.8);
   animation: drip 1.5s ease-in-out infinite;
 }
 
 .scroll-hint__text {
   font-size: 11px;
   letter-spacing: 0.35px;
-  color: rgba(255,255,255,0.62);
+  color: rgba(255, 255, 255, 0.62);
 }
 
 /* animations */
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes drip {
-  0% { transform: translateY(0); opacity: 0; }
-  25% { opacity: 1; }
-  80% { transform: translateY(190%); opacity: 0.55; }
-  100% { opacity: 0; }
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(190%);
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 /* responsive */
 @media (max-width: 520px) {
-  .hero__container { padding-top: 56px; }
-  .logo-wrap { width: min(190px, 62vw); }
-  .cta { width: 100%; justify-content: center; }
+  .hero__container {
+    padding-top: 56px;
+  }
+
+  .logo-wrap {
+    width: min(190px, 62vw);
+  }
+
+  .cta {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; transition: none !important; }
-  .hero { --bgShift: 0px !important; }
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+  .hero {
+    --bgShift: 0px !important;
+  }
 }
 </style>

@@ -1,17 +1,18 @@
 <template>
   <section class="cta-section" id="cta-acessibilidade" ref="root">
-    <!-- BG (mais leve) -->
+    <!-- BG (leve) -->
     <div class="bg" aria-hidden="true">
       <div class="bg__grid"></div>
       <div class="bg__glow bg__glow--a"></div>
       <div class="bg__glow bg__glow--b"></div>
       <div class="bg__noise"></div>
 
-      <!-- particles (menos + sem animação infinita no JS) -->
+      <!-- particles (menos no mobile, sem JS infinito) -->
       <div class="bg__particles" aria-hidden="true">
         <span v-for="n in particlesCount" :key="n" class="p"></span>
       </div>
 
+      <!-- cursor glow (desativado em touch / reduce motion) -->
       <div class="bg__cursor" aria-hidden="true"></div>
     </div>
 
@@ -53,20 +54,36 @@
 
           <ul class="list">
             <li class="item">
-              <span class="ico danger" aria-hidden="true"><i class="mdi mdi-close-circle-outline"></i></span>
-              <div class="txt"><strong>Perde clientes sem perceber.</strong> O usuário trava e desiste.</div>
+              <span class="ico danger" aria-hidden="true">
+                <i class="mdi mdi-close-circle-outline"></i>
+              </span>
+              <div class="txt">
+                <strong>Perde clientes sem perceber.</strong> O usuário trava e desiste.
+              </div>
             </li>
             <li class="item">
-              <span class="ico danger" aria-hidden="true"><i class="mdi mdi-close-circle-outline"></i></span>
-              <div class="txt"><strong>Menos autoridade.</strong> Sem prova institucional, o concorrente leva.</div>
+              <span class="ico danger" aria-hidden="true">
+                <i class="mdi mdi-close-circle-outline"></i>
+              </span>
+              <div class="txt">
+                <strong>Menos autoridade.</strong> Sem prova institucional, o concorrente leva.
+              </div>
             </li>
             <li class="item">
-              <span class="ico danger" aria-hidden="true"><i class="mdi mdi-close-circle-outline"></i></span>
-              <div class="txt"><strong>WhatsApp bagunçado.</strong> Sem triagem, vem mensagem sem contexto.</div>
+              <span class="ico danger" aria-hidden="true">
+                <i class="mdi mdi-close-circle-outline"></i>
+              </span>
+              <div class="txt">
+                <strong>WhatsApp bagunçado.</strong> Sem triagem, vem mensagem sem contexto.
+              </div>
             </li>
             <li class="item">
-              <span class="ico danger" aria-hidden="true"><i class="mdi mdi-close-circle-outline"></i></span>
-              <div class="txt"><strong>Menos Google.</strong> Sem estrutura, sua busca orgânica cai.</div>
+              <span class="ico danger" aria-hidden="true">
+                <i class="mdi mdi-close-circle-outline"></i>
+              </span>
+              <div class="txt">
+                <strong>Menos Google.</strong> Sem estrutura, sua busca orgânica cai.
+              </div>
             </li>
           </ul>
 
@@ -100,20 +117,36 @@
 
           <ul class="list">
             <li class="item">
-              <span class="ico good" aria-hidden="true"><i class="mdi mdi-check-circle-outline"></i></span>
-              <div class="txt"><strong>Mais leads qualificados.</strong> CTA claro + formulário estratégico.</div>
+              <span class="ico good" aria-hidden="true">
+                <i class="mdi mdi-check-circle-outline"></i>
+              </span>
+              <div class="txt">
+                <strong>Mais leads qualificados.</strong> CTA claro + formulário estratégico.
+              </div>
             </li>
             <li class="item">
-              <span class="ico good" aria-hidden="true"><i class="mdi mdi-check-circle-outline"></i></span>
-              <div class="txt"><strong>Autoridade instantânea.</strong> Estrutura institucional convincente.</div>
+              <span class="ico good" aria-hidden="true">
+                <i class="mdi mdi-check-circle-outline"></i>
+              </span>
+              <div class="txt">
+                <strong>Autoridade instantânea.</strong> Estrutura institucional convincente.
+              </div>
             </li>
             <li class="item">
-              <span class="ico good" aria-hidden="true"><i class="mdi mdi-check-circle-outline"></i></span>
-              <div class="txt"><strong>Acessibilidade real.</strong> Contraste, foco, semântica, navegação.</div>
+              <span class="ico good" aria-hidden="true">
+                <i class="mdi mdi-check-circle-outline"></i>
+              </span>
+              <div class="txt">
+                <strong>Acessibilidade real.</strong> Contraste, foco, semântica, navegação.
+              </div>
             </li>
             <li class="item">
-              <span class="ico good" aria-hidden="true"><i class="mdi mdi-check-circle-outline"></i></span>
-              <div class="txt"><strong>Performance + SEO base.</strong> Carrega rápido e aparece mais.</div>
+              <span class="ico good" aria-hidden="true">
+                <i class="mdi mdi-check-circle-outline"></i>
+              </span>
+              <div class="txt">
+                <strong>Performance + SEO base.</strong> Carrega rápido e aparece mais.
+              </div>
             </li>
           </ul>
 
@@ -126,23 +159,41 @@
             </div>
 
             <div class="ctaBox__right">
-              <button class="cta primary" ref="ctaPrimary" type="button" @click="goForm">
+              <button
+                class="cta primary"
+                ref="ctaPrimary"
+                type="button"
+                @click="goForm"
+              >
                 Solicitar Exemplo
                 <span class="arrow" aria-hidden="true">→</span>
                 <span class="shine" aria-hidden="true"></span>
               </button>
 
-              <button class="cta secondary" ref="ctaSecondary" type="button" @click="openAudit('beneficios')">
+              <button
+                class="cta secondary"
+                ref="ctaSecondary"
+                type="button"
+                @click="openAudit('beneficios')"
+              >
                 Ver auditoria rápida
                 <span class="chev" aria-hidden="true"></span>
               </button>
             </div>
 
             <div class="ctaBox__meta">
-              <span class="meta-pill"><i class="mdi mdi-timer-sand"></i> 24–72h</span>
-              <span class="meta-pill"><i class="mdi mdi-lock-outline"></i> LGPD</span>
-              <span class="meta-pill"><i class="mdi mdi-speedometer"></i> Performance</span>
-              <span class="meta-pill"><i class="mdi mdi-wheelchair-accessibility"></i> Acessível</span>
+              <span class="meta-pill">
+                <i class="mdi mdi-timer-sand"></i> 24–72h
+              </span>
+              <span class="meta-pill">
+                <i class="mdi mdi-lock-outline"></i> LGPD
+              </span>
+              <span class="meta-pill">
+                <i class="mdi mdi-speedometer"></i> Performance
+              </span>
+              <span class="meta-pill">
+                <i class="mdi mdi-wheelchair-accessibility"></i> Acessível
+              </span>
             </div>
           </div>
         </article>
@@ -150,7 +201,9 @@
 
       <div class="bottom" ref="bottom">
         <div class="proof">
-          <div class="proof__icon" aria-hidden="true"><i class="mdi mdi-scale-balance"></i></div>
+          <div class="proof__icon" aria-hidden="true">
+            <i class="mdi mdi-scale-balance"></i>
+          </div>
           <div class="proof__txt">
             <strong>Tom institucional.</strong> Sem promessas de resultado. Clareza + confiança + inclusão.
           </div>
@@ -167,9 +220,16 @@
       </div>
     </div>
 
-    <!-- Modal (abre sob demanda; sem animação pesada) -->
+    <!-- Modal -->
     <teleport to="body">
-      <div v-if="auditOpen" class="modal" role="dialog" aria-modal="true" aria-label="Auditoria rápida" @keydown.esc="closeAudit">
+      <div
+        v-if="auditOpen"
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Auditoria rápida"
+        @keydown.esc="closeAudit"
+      >
         <div class="modal__overlay" @click="closeAudit"></div>
 
         <div class="modal__panel" ref="modalPanel" tabindex="-1">
@@ -179,13 +239,22 @@
               Auditoria rápida • Inclusão digital
             </div>
 
-            <button class="modal__close" type="button" @click="closeAudit" aria-label="Fechar">
+            <button
+              class="modal__close"
+              type="button"
+              @click="closeAudit"
+              aria-label="Fechar"
+            >
               <i class="mdi mdi-close"></i>
             </button>
           </div>
 
           <h3 class="modal__title">
-            {{ auditMode === "problemas" ? "Checklist do que derruba conversão" : "Checklist do que aumenta confiança" }}
+            {{
+              auditMode === "problemas"
+                ? "Checklist do que derruba conversão"
+                : "Checklist do que aumenta confiança"
+            }}
           </h3>
 
           <p class="modal__sub">
@@ -193,7 +262,11 @@
           </p>
 
           <div class="checks">
-            <label v-for="(c, i) in auditChecklist" :key="i" class="check">
+            <label
+              v-for="(c, i) in auditChecklist"
+              :key="i"
+              class="check"
+            >
               <input type="checkbox" />
               <span class="check__box" aria-hidden="true"></span>
               <span class="check__txt">
@@ -224,8 +297,16 @@
     </teleport>
   </section>
 </template>
+
 <script setup>
-import { onBeforeUnmount, onMounted, ref, computed, nextTick, watchEffect } from "vue";
+import {
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  computed,
+  nextTick,
+  watchEffect,
+} from "vue";
 import { useRouter } from "vue-router";
 import { animate } from "@motionone/dom";
 
@@ -246,15 +327,12 @@ const modalPanel = ref(null);
 const auditOpen = ref(false);
 const auditMode = ref("beneficios");
 
-const prefersReduced =
-  window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
-
-const isTouch =
-  typeof window !== "undefined" &&
-  (matchMedia?.("(pointer: coarse)")?.matches || "ontouchstart" in window);
+// flags reativas (melhor pra SSR e pra perf)
+const prefersReduced = ref(false);
+const isTouch = ref(false);
 
 // particles: menos no mobile
-const particlesCount = computed(() => (isTouch ? 8 : 12));
+const particlesCount = computed(() => (isTouch.value ? 8 : 12));
 
 function goForm() {
   router.push("/Formulario");
@@ -271,12 +349,23 @@ function openAudit(mode) {
   auditOpen.value = true;
 
   nextTick(() => {
-    modalPanel.value?.focus?.();
-    if (!prefersReduced && modalPanel.value) {
+    if (!modalPanel.value) return;
+    modalPanel.value.focus?.();
+
+    if (!prefersReduced.value) {
       animate(
         modalPanel.value,
-        { opacity: [0, 1], transform: ["translateY(10px) scale(0.99)", "translateY(0px) scale(1)"] },
-        { duration: 0.16 }
+        {
+          opacity: [0, 1],
+          transform: [
+            "translateY(12px) scale(0.98)",
+            "translateY(0px) scale(1)",
+          ],
+        },
+        {
+          duration: 0.2,
+          easing: "cubic-bezier(0.16, 1, 0.3, 1)", // ease-out suave
+        }
       );
     }
   });
@@ -287,33 +376,57 @@ function closeAudit() {
 }
 
 function lockBody(locked) {
+  if (typeof document === "undefined") return;
   const cls = "body-lock";
   document.documentElement.classList.toggle(cls, locked);
   document.body.classList.toggle(cls, locked);
 }
 
-watchEffect(() => lockBody(auditOpen.value));
+watchEffect(() => {
+  lockBody(auditOpen.value);
+});
 
 const auditChecklist = computed(() => {
   if (auditMode.value === "problemas") {
     return [
       { t: "CTA escondido", d: "Usuário não sabe o que fazer e sai." },
-      { t: "Contraste ruim / fonte pequena", d: "Leitura difícil derruba conversão." },
-      { t: "Sem prova institucional", d: "Confiança menor = menos contato." },
+      {
+        t: "Contraste ruim / fonte pequena",
+        d: "Leitura difícil derruba conversão.",
+      },
+      {
+        t: "Sem prova institucional",
+        d: "Confiança menor = menos contato.",
+      },
       { t: "Lento no celular", d: "Cada segundo reduz cliques." },
-      { t: "Sem triagem", d: "WhatsApp vira bagunça e você perde tempo." }
+      {
+        t: "Sem triagem",
+        d: "WhatsApp vira bagunça e você perde tempo.",
+      },
     ];
   }
   return [
-    { t: "CTA claro + WhatsApp com contexto", d: "Aumenta clique e qualidade do lead." },
-    { t: "Estrutura institucional", d: "Autoridade e confiança imediata." },
+    {
+      t: "CTA claro + WhatsApp com contexto",
+      d: "Aumenta clique e qualidade do lead.",
+    },
+    {
+      t: "Estrutura institucional",
+      d: "Autoridade e confiança imediata.",
+    },
     { t: "Acessibilidade real", d: "Mais alcance e menos barreiras." },
-    { t: "Performance + SEO base", d: "Carrega rápido e aparece mais." },
-    { t: "Formulário estratégico", d: "Você recebe lead com contexto." }
+    {
+      t: "Performance + SEO base",
+      d: "Carrega rápido e aparece mais.",
+    },
+    {
+      t: "Formulário estratégico",
+      d: "Você recebe lead com contexto.",
+    },
   ];
 });
 
-// ===== Cursor glow otimizado (RAF + desliga no touch) =====
+// ===== Cursor glow otimizado (RAF + off em touch/reduced) =====
 let raf = 0;
 let lastX = 0;
 let lastY = 0;
@@ -321,30 +434,31 @@ let pending = false;
 
 function setupCursorGlow() {
   const glow = root.value?.querySelector(".bg__cursor");
-  if (!glow || prefersReduced || isTouch) return () => {};
+  if (!glow || prefersReduced.value || isTouch.value) return () => {};
 
   const onMove = (e) => {
     const r = root.value.getBoundingClientRect();
     lastX = e.clientX - r.left;
     lastY = e.clientY - r.top;
-    if (!pending) {
-      pending = true;
-      raf = requestAnimationFrame(() => {
-        pending = false;
-        glow.style.setProperty("--cx", `${lastX}px`);
-        glow.style.setProperty("--cy", `${lastY}px`);
-      });
-    }
+
+    if (pending) return;
+    pending = true;
+    raf = requestAnimationFrame(() => {
+      pending = false;
+      glow.style.setProperty("--cx", `${lastX}px`);
+      glow.style.setProperty("--cy", `${lastY}px`);
+    });
   };
 
   root.value.addEventListener("mousemove", onMove, { passive: true });
+
   return () => {
     cancelAnimationFrame(raf);
     root.value?.removeEventListener("mousemove", onMove);
   };
 }
 
-// ===== Particles simples (posiciona 1x e pronto) =====
+// ===== Particles: posiciona uma vez =====
 function setupParticlesStatic() {
   const wrap = root.value?.querySelector(".bg__particles");
   if (!wrap) return;
@@ -364,10 +478,11 @@ function setupParticlesStatic() {
   });
 }
 
-// ===== Reveal leve (IntersectionObserver) =====
+// ===== Reveal leve (IntersectionObserver + Motion One) =====
 let io;
+
 function setupReveal() {
-  if (prefersReduced) return;
+  if (prefersReduced.value) return;
 
   const targets = [
     kicker.value,
@@ -376,13 +491,12 @@ function setupReveal() {
     cardProblems.value,
     cardBenefits.value,
     ctaBox.value,
-    bottom.value
+    bottom.value,
   ].filter(Boolean);
 
-  // estado inicial leve (sem splitWords)
   targets.forEach((el) => {
     el.style.opacity = "0";
-    el.style.transform = "translateY(10px)";
+    el.style.transform = "translateY(12px)";
     el.style.filter = "blur(6px)";
     el.style.willChange = "transform, opacity, filter";
   });
@@ -393,20 +507,39 @@ function setupReveal() {
         if (!ent.isIntersecting) return;
         const el = ent.target;
 
-        animate(el, { opacity: [0, 1], transform: ["translateY(10px)", "translateY(0px)"], filter: ["blur(6px)", "blur(0px)"] }, { duration: 0.35 });
+        animate(
+          el,
+          {
+            opacity: [0, 1],
+            transform: ["translateY(12px)", "translateY(0px)"],
+            filter: ["blur(6px)", "blur(0px)"],
+          },
+          {
+            duration: 0.38,
+            easing: "cubic-bezier(0.33, 1, 0.68, 1)",
+          }
+        );
+
+        // depois de animar, tira will-change pra ficar mais leve
+        setTimeout(() => {
+          el.style.willChange = "auto";
+        }, 420);
 
         io.unobserve(el);
       });
     },
-    { root: null, threshold: 0.12 }
+    {
+      root: null,
+      threshold: 0.16,
+    }
   );
 
   targets.forEach((el) => io.observe(el));
 }
 
-// ===== Magnetic hover (bem leve e só em desktop) =====
+// ===== Magnetic hover (leve, desktop only) =====
 function setupMagnetic(el, strength = 22) {
-  if (!el || prefersReduced || isTouch) return () => {};
+  if (!el || prefersReduced.value || isTouch.value) return () => {};
 
   let raf2 = 0;
   let tx = 0;
@@ -449,6 +582,16 @@ function onKeydownGlobal(e) {
 }
 
 onMounted(() => {
+  // flags de ambiente
+  if (typeof window !== "undefined") {
+    prefersReduced.value =
+      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+
+    isTouch.value =
+      window.matchMedia?.("(pointer: coarse)")?.matches ||
+      "ontouchstart" in window;
+  }
+
   setupParticlesStatic();
   cleanupGlow = setupCursorGlow();
   setupReveal();
@@ -467,6 +610,7 @@ onBeforeUnmount(() => {
   document.removeEventListener("keydown", onKeydownGlobal);
 });
 </script>
+
 <style scoped>
 .cta-section{
   position:relative;
@@ -486,7 +630,11 @@ onBeforeUnmount(() => {
 }
 
 /* BG */
-.bg{ position:absolute; inset:0; pointer-events:none; }
+.bg{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
 
 .bg__grid{
   position:absolute;
@@ -494,7 +642,7 @@ onBeforeUnmount(() => {
   background:
     linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size:40px 40px; /* pouco maior = menos linhas = mais leve */
+  background-size:40px 40px;
   opacity:.12;
   transform:rotate(10deg);
   mask-image:radial-gradient(circle at 50% 35%, #000, rgba(0,0,0,.12) 58%, transparent 75%);
@@ -503,33 +651,41 @@ onBeforeUnmount(() => {
 .bg__glow{
   position:absolute;
   border-radius:999px;
-  filter:blur(52px);  /* blur menor = mais leve */
+  filter:blur(52px);
   opacity:.42;
 }
 
 .bg__glow--a{
-  width:520px; height:520px;
-  left:50%; top:6%;
+  width:520px;
+  height:520px;
+  left:50%;
+  top:6%;
   transform:translateX(-70%);
   background:radial-gradient(circle at 30% 35%, rgba(255,255,255,.13), transparent 62%);
 }
 
 .bg__glow--b{
-  width:620px; height:620px;
-  left:50%; top:46%;
+  width:620px;
+  height:620px;
+  left:50%;
+  top:46%;
   transform:translateX(-25%);
   background:radial-gradient(circle at 55% 45%, rgba(255,255,255,.10), transparent 64%);
 }
 
 .bg__noise{
-  position:absolute; inset:0;
+  position:absolute;
+  inset:0;
   opacity:.05;
   mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
 }
 
-/* particles (sem sombra pesada) */
-.bg__particles{ position:absolute; inset:0; }
+/* particles */
+.bg__particles{
+  position:absolute;
+  inset:0;
+}
 .bg__particles .p{
   position:absolute;
   border-radius:999px;
@@ -537,9 +693,10 @@ onBeforeUnmount(() => {
   filter:blur(.4px);
 }
 
-/* cursor glow (desliga no touch via script) */
+/* cursor glow (off em touch / reduce motion via script) */
 .bg__cursor{
-  position:absolute; inset:0;
+  position:absolute;
+  inset:0;
   opacity:.42;
   background:
     radial-gradient(320px 320px at var(--cx, 50%) var(--cy, 35%),
@@ -563,7 +720,8 @@ onBeforeUnmount(() => {
   letter-spacing:.35px;
 }
 .kicker__dot{
-  width:8px; height:8px;
+  width:8px;
+  height:8px;
   border-radius:999px;
   background:rgba(255,255,255,.78);
   box-shadow:0 0 12px rgba(255,255,255,.16);
@@ -608,12 +766,10 @@ onBeforeUnmount(() => {
   border-radius:22px;
   border:1px solid rgba(255,255,255,.12);
   background:rgba(255,255,255,.04);
-  box-shadow:0 18px 64px rgba(0,0,0,.50); /* mais leve */
+  box-shadow:0 18px 64px rgba(0,0,0,.50);
   overflow:hidden;
   padding:16px;
-  /* backdrop-filter removido do card = grande ganho */
 }
-
 .card::before{
   content:"";
   position:absolute;
@@ -624,7 +780,12 @@ onBeforeUnmount(() => {
   pointer-events:none;
 }
 
-.card__top{ display:flex; justify-content:space-between; align-items:center; gap:10px; }
+.card__top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
 
 .pill{
   display:inline-flex;
@@ -650,7 +811,8 @@ onBeforeUnmount(() => {
   color:rgba(255,255,255,.86);
 }
 .badge__dot{
-  width:8px; height:8px;
+  width:8px;
+  height:8px;
   border-radius:999px;
   background:rgba(255,255,255,.8);
   box-shadow:0 0 12px rgba(255,255,255,.16);
@@ -663,7 +825,13 @@ onBeforeUnmount(() => {
   color:rgba(255,255,255,.90);
 }
 
-.list{ list-style:none; padding:0; margin:0; display:grid; gap:10px; }
+.list{
+  list-style:none;
+  padding:0;
+  margin:0;
+  display:grid;
+  gap:10px;
+}
 
 .item{
   display:grid;
@@ -677,7 +845,8 @@ onBeforeUnmount(() => {
 }
 
 .ico{
-  width:34px; height:34px;
+  width:34px;
+  height:34px;
   border-radius:12px;
   display:grid;
   place-items:center;
@@ -685,16 +854,30 @@ onBeforeUnmount(() => {
   background:rgba(255,255,255,.03);
 }
 .ico.danger{
-  color: #ff0000;
+  color:#ff0000;
 }
 .ico.good{
-  color: #00ff1a;
+  color:#00ff1a;
 }
-.ico i{ font-size:18px; }
-.txt{ font-size:13px; line-height:1.55; color:rgba(255,255,255,.78); }
-.txt strong{ color:rgba(255,255,255,.92); font-weight:900; }
+.ico i{
+  font-size:18px;
+}
 
-.card__foot{ margin-top:12px; display:grid; gap:10px; }
+.txt{
+  font-size:13px;
+  line-height:1.55;
+  color:rgba(255,255,255,.78);
+}
+.txt strong{
+  color:rgba(255,255,255,.92);
+  font-weight:900;
+}
+
+.card__foot{
+  margin-top:12px;
+  display:grid;
+  gap:10px;
+}
 
 .mini-note{
   display:inline-flex;
@@ -717,7 +900,9 @@ onBeforeUnmount(() => {
   text-underline-offset:4px;
   opacity:.9;
 }
-.mini-link:hover{ opacity:1; }
+.mini-link:hover{
+  opacity:1;
+}
 
 /* CTA BOX */
 .ctaBox{
@@ -729,12 +914,26 @@ onBeforeUnmount(() => {
   display:grid;
   gap:12px;
 }
-
-.ctaBox__title{ font-size:14px; font-weight:900; color:rgba(255,255,255,.92); }
-.ctaBox__sub{ margin-top:2px; font-size:12px; color:rgba(255,255,255,.70); }
-.ctaBox__right{ display:flex; gap:10px; flex-wrap:wrap; }
-
-.ctaBox__meta{ display:flex; flex-wrap:wrap; gap:10px; }
+.ctaBox__title{
+  font-size:14px;
+  font-weight:900;
+  color:rgba(255,255,255,.92);
+}
+.ctaBox__sub{
+  margin-top:2px;
+  font-size:12px;
+  color:rgba(255,255,255,.70);
+}
+.ctaBox__right{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.ctaBox__meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
 .meta-pill{
   font-size:12px;
   padding:8px 10px;
@@ -756,13 +955,17 @@ onBeforeUnmount(() => {
   cursor:pointer;
   color:rgba(255,255,255,.90);
   background:rgba(255,255,255,.04);
-  transition:background 160ms ease, border-color 160ms ease, transform 160ms ease;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease,
+    box-shadow 160ms ease;
   overflow:hidden;
   display:inline-flex;
   align-items:center;
   justify-content:center;
   gap:10px;
-  will-change: transform;
+  will-change:transform;
 }
 .cta.primary{
   background:linear-gradient(135deg, rgba(255,255,255,.92), rgba(255,255,255,.72));
@@ -770,7 +973,7 @@ onBeforeUnmount(() => {
   border-color:rgba(255,255,255,.18);
   font-weight:900;
   letter-spacing:.2px;
-  box-shadow:0 14px 42px rgba(0,0,0,.45); /* mais leve */
+  box-shadow:0 14px 42px rgba(0,0,0,.45);
 }
 .cta.primary::before{
   content:"";
@@ -781,18 +984,33 @@ onBeforeUnmount(() => {
   opacity:.28;
   pointer-events:none;
 }
-.cta.secondary:hover{ background:rgba(255,255,255,.06); }
-.arrow{ font-weight:900; }
+.cta.secondary:hover{
+  background:rgba(255,255,255,.06);
+}
+.cta:hover{
+  box-shadow:0 18px 50px rgba(0,0,0,.55);
+}
+.arrow{
+  font-weight:900;
+}
+
+/* shine só anima no hover pra ficar leve */
 .shine{
   position:absolute;
   inset:-55%;
   background:conic-gradient(from 180deg, transparent, rgba(255,255,255,.24), transparent);
   animation:spin 6.4s linear infinite;
   opacity:.45;
+  animation-play-state:paused;
 }
+.cta.primary:hover .shine{
+  animation-play-state:running;
+}
+
 .chev{
   display:inline-block;
-  width:10px; height:10px;
+  width:10px;
+  height:10px;
   border-right:2px solid rgba(255,255,255,.70);
   border-bottom:2px solid rgba(255,255,255,.70);
   transform:rotate(45deg) translateY(-1px);
@@ -810,19 +1028,37 @@ onBeforeUnmount(() => {
   gap:12px;
   align-items:center;
 }
-.proof{ display:flex; gap:10px; align-items:center; }
+.proof{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
 .proof__icon{
-  width:40px; height:40px;
+  width:40px;
+  height:40px;
   border-radius:14px;
   display:grid;
   place-items:center;
   border:1px solid rgba(255,255,255,.10);
   background:rgba(255,255,255,.03);
 }
-.proof__txt{ font-size:12px; color:rgba(255,255,255,.74); }
-.proof__txt strong{ color:rgba(255,255,255,.92); }
-.divider{ width:1px; height:38px; background:rgba(255,255,255,.10); }
-.micro{ display:grid; justify-items:end; gap:6px; }
+.proof__txt{
+  font-size:12px;
+  color:rgba(255,255,255,.74);
+}
+.proof__txt strong{
+  color:rgba(255,255,255,.92);
+}
+.divider{
+  width:1px;
+  height:38px;
+  background:rgba(255,255,255,.10);
+}
+.micro{
+  display:grid;
+  justify-items:end;
+  gap:6px;
+}
 .micro__btn{
   border:0;
   cursor:pointer;
@@ -832,16 +1068,29 @@ onBeforeUnmount(() => {
   border:1px solid rgba(255,255,255,.10);
   color:rgba(255,255,255,.90);
 }
-.micro__btn:hover{ background:rgba(255,255,255,.07); }
-.micro__hint{ font-size:11px; color:rgba(255,255,255,.58); }
+.micro__btn:hover{
+  background:rgba(255,255,255,.07);
+}
+.micro__hint{
+  font-size:11px;
+  color:rgba(255,255,255,.58);
+}
 
 /* Modal */
-.modal{ position:fixed; inset:0; z-index:999; display:grid; place-items:center; padding:18px; }
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:999;
+  display:grid;
+  place-items:center;
+  padding:18px;
+}
 .modal__overlay{
-  position:absolute; inset:0;
+  position:absolute;
+  inset:0;
   background:rgba(0,0,0,.62);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
 }
 .modal__panel{
   position:relative;
@@ -856,9 +1105,16 @@ onBeforeUnmount(() => {
   z-index:2;
   outline:none;
 }
-.modal__top{ display:flex; justify-content:space-between; align-items:center; gap:10px; }
+.modal__top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
 .modal__tag{
-  display:inline-flex; align-items:center; gap:10px;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
   padding:8px 10px;
   border-radius:999px;
   border:1px solid rgba(255,255,255,.10);
@@ -867,22 +1123,38 @@ onBeforeUnmount(() => {
   font-size:12px;
 }
 .modal__tag .dot{
-  width:8px; height:8px; border-radius:999px;
+  width:8px;
+  height:8px;
+  border-radius:999px;
   background:rgba(255,255,255,.8);
   box-shadow:0 0 12px rgba(255,255,255,.16);
 }
 .modal__close{
-  width:42px; height:42px;
+  width:42px;
+  height:42px;
   border-radius:14px;
   border:1px solid rgba(255,255,255,.10);
   background:rgba(255,255,255,.03);
   color:rgba(255,255,255,.92);
   cursor:pointer;
 }
-.modal__title{ margin:12px 0 6px; font-size:18px; letter-spacing:-.2px; }
-.modal__sub{ margin:0 0 12px; color:rgba(255,255,255,.72); font-size:13px; line-height:1.55; }
+.modal__title{
+  margin:12px 0 6px;
+  font-size:18px;
+  letter-spacing:-.2px;
+}
+.modal__sub{
+  margin:0 0 12px;
+  color:rgba(255,255,255,.72);
+  font-size:13px;
+  line-height:1.55;
+}
 
-.checks{ display:grid; gap:10px; margin-top:6px; }
+.checks{
+  display:grid;
+  gap:10px;
+  margin-top:6px;
+}
 .check{
   display:grid;
   grid-template-columns:22px 1fr;
@@ -893,9 +1165,14 @@ onBeforeUnmount(() => {
   border:1px solid rgba(255,255,255,.08);
   background:rgba(255,255,255,.02);
 }
-.check input{ position:absolute; opacity:0; pointer-events:none; }
+.check input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
 .check__box{
-  width:18px; height:18px;
+  width:18px;
+  height:18px;
   border-radius:6px;
   border:1px solid rgba(255,255,255,.16);
   background:rgba(255,255,255,.04);
@@ -909,35 +1186,79 @@ onBeforeUnmount(() => {
   border-radius:4px;
   background:rgba(255,255,255,.86);
 }
-.check__txt{ font-size:13px; color:rgba(255,255,255,.80); line-height:1.5; }
-.check__txt strong{ color:rgba(255,255,255,.92); font-weight:900; }
-.check__txt .muted{ display:block; margin-top:4px; font-size:11px; color:rgba(255,255,255,.62); }
+.check__txt{
+  font-size:13px;
+  color:rgba(255,255,255,.80);
+  line-height:1.5;
+}
+.check__txt strong{
+  color:rgba(255,255,255,.92);
+  font-weight:900;
+}
+.check__txt .muted{
+  display:block;
+  margin-top:4px;
+  font-size:11px;
+  color:rgba(255,255,255,.62);
+}
 
-.modal__cta{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
-.modal__fine{ margin:10px 0 0; font-size:11px; color:rgba(255,255,255,.55); }
+.modal__cta{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+.modal__fine{
+  margin:10px 0 0;
+  font-size:11px;
+  color:rgba(255,255,255,.55);
+}
 
 /* body lock */
 :global(html.body-lock),
-:global(body.body-lock){ overflow:hidden; }
+:global(body.body-lock){
+  overflow:hidden;
+}
 
 /* anim */
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
 
 /* responsive */
 @media (max-width:980px){
-  .grid{ grid-template-columns:1fr; }
-  .bottom{ grid-template-columns:1fr; }
-  .divider{ display:none; }
-  .micro{ justify-items:start; }
+  .grid{
+    grid-template-columns:1fr;
+  }
+  .bottom{
+    grid-template-columns:1fr;
+  }
+  .divider{
+    display:none;
+  }
+  .micro{
+    justify-items:start;
+  }
 }
 @media (max-width:520px){
-  .cta-section{ padding:72px 0 62px; }
-  .cta{ width:100%; }
-  .ctaBox__right{ width:100%; }
+  .cta-section{
+    padding:72px 0 62px;
+  }
+  .cta{
+    width:100%;
+  }
+  .ctaBox__right{
+    width:100%;
+  }
 }
 
 /* reduced motion */
 @media (prefers-reduced-motion: reduce){
-  *{ animation:none !important; transition:none !important; }
+  *{
+    animation:none !important;
+    transition:none !important;
+  }
 }
 </style>

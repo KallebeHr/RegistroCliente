@@ -79,9 +79,7 @@
           <div class="social">
             <a
               class="soc"
-              href="#"
-              aria-label="Instagram (indisponível)"
-              @click.prevent="notifyUnavailable"
+              href="https://www.instagram.com/maxsistemas0?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
             >
               <i class="mdi mdi-instagram" aria-hidden="true"></i>
             </a>
@@ -106,9 +104,11 @@
           </div>
 
           <div class="miniLinks">
-            <a class="mini" href="#politica">Política</a>
+            <a class="mini" href="#"   aria-label="Política (indisponível)"
+              @click.prevent="notifyUnavailable">Política</a>
             <span class="sep" aria-hidden="true">•</span>
-            <a class="mini" href="#termos">Termos</a>
+            <a class="mini" href="#"  aria-label="Termos (indisponível)"
+              @click.prevent="notifyUnavailable">Termos</a>
           </div>
         </div>
       </div>

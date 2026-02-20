@@ -6,7 +6,6 @@
       <preloader />
     </div>
     <div v-else>
-      
       <router-view />
     </div>
   </v-app>
