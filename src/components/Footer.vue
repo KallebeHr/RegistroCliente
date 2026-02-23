@@ -138,7 +138,7 @@ const year = new Date().getFullYear();
 
 // ✅ Troque aqui
 const brandName = "Kallebe Max";
-const phone = "(86) 98163-2626";
+const phone = "(86) 8142-6485";
 const email = "KalebeHeuler@gmail.com";
 const address = "Virtual • Centro";
 const city = "*/PI";
